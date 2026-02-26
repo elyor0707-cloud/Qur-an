@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="uz" dir="ltr">
+<head>
+<meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.islamic.network https://api.alquran.cloud https://alquran.cloud https://www.youtube.com https://www.youtube-nocookie.com https://www.youtube.com/results; img-src 'self' data: https:; media-src 'self' https://cdn.islamic.network blob:;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qur'oni Karim — Shaxsiy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a84b;--gold-light:#e8d08b;--gold-dim:#8a6f2e;
+  --bg:#0d1117;--bg2:#151b23;--bg3:#1e2733;--border:#2a3545;
+  --text:#e8e4d8;--text-dim:#7a7060;
+  --green:#2d6a4f;--green-l:#52b788;
+  --purple:#6b4f8a;--amber:#b5863c;
+  --red:#c0392b;--blue:#2980b9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column}
+.login-box{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:3rem 2.5rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 80px rgba(200,168,75,.08);animation:fadeUp .6s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-icon{font-size:3rem;margin-bottom:1rem}
+.login-box h1{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);margin-bottom:.5rem}
+.login-box p{color:var(--text-dim);font-size:.9rem;margin-bottom:2rem}
+.tok-inp{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.85rem 1.2rem;border-radius:.75rem;font-size:1rem;outline:none;text-align:center;letter-spacing:.15em;transition:border-color .2s;margin-bottom:1rem}
+.tok-inp:focus{border-color:var(--gold)}
+.login-btn{width:100%;background:linear-gradient(135deg,var(--gold-dim),var(--gold));color:#0d1117;border:none;padding:.85rem;border-radius:.75rem;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .1s;letter-spacing:.05em}
+.login-btn:hover{opacity:.9;transform:translateY(-1px)}
+.login-err{color:#e07070;font-size:.85rem;margin-top:.5rem;display:none}
+.login-used{color:#e09050;font-size:.82rem;margin-top:.5rem;display:none}
+
+/* ── APP ── */
+#app{display:none;min-height:100vh}
+.bg-pat{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(200,168,75,.04) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(45,106,79,.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.9rem 1.2rem;display:flex;align-items:center;justify-content:space-between}
+.hdr-left{display:flex;align-items:center;gap:.75rem}
+.hdr-ar{font-family:'Amiri Quran',serif;font-size:1.6rem;color:var(--gold);line-height:1}
+.hdr-uz{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--text-dim);font-style:italic}
+.hdr-right{display:flex;gap:.5rem}
+.ico-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);width:38px;height:38px;border-radius:.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:1rem}
+.ico-btn:hover{border-color:var(--gold);color:var(--gold)}
+.ico-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold-light)}
+
+/* NAV TABS */
+.nav-tabs{display:flex;gap:.25rem;background:var(--bg2);border-bottom:1px solid var(--border);padding:.6rem 1.2rem;overflow-x:auto;position:sticky;top:57px;z-index:99}
+.nav-tabs::-webkit-scrollbar{height:2px}
+.tab-btn{background:transparent;border:1px solid transparent;color:var(--text-dim);padding:.45rem 1rem;border-radius:.5rem;cursor:pointer;font-size:.85rem;white-space:nowrap;transition:all .2s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{background:var(--bg3);border-color:var(--border);color:var(--gold)}
+
+/* LAYOUT - sidebar mustaqil scroll, o'ng panel to'liq ko'rinadi */
+.layout{position:relative;z-index:1;display:grid;grid-template-columns:270px 1fr;height:calc(100vh - 97px);overflow:hidden;contain:strict}
+@media(max-width:768px){.layout{grid-template-columns:1fr;height:calc(100vh - 97px)}.sidebar{display:none!important}.sidebar.open{display:flex!important;position:fixed;inset:97px 0 0 0;z-index:98;overflow-y:auto}}
+
+/* SIDEBAR - faqat o'zi scroll qiladi */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100%;overflow:hidden}
+.sb-search{padding:.8rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.sb-search input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.55rem .9rem;border-radius:.5rem;font-size:.85rem;outline:none;transition:border-color .2s}
+.sb-search input:focus{border-color:var(--gold)}
+.sb-search input::placeholder{color:var(--text-dim)}
+.surah-list{overflow-y:auto;flex:1;min-height:0}
+.surah-list::-webkit-scrollbar{width:3px}
+.surah-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.si{display:flex;align-items:center;gap:.65rem;padding:.65rem .9rem;cursor:pointer;border-bottom:1px solid rgba(42,53,69,.4);transition:all .15s}
+.si:hover{background:rgba(200,168,75,.05)}
+.si.active{background:rgba(200,168,75,.1);border-left:3px solid var(--gold)}
+.si-num{font-family:'Playfair Display',serif;width:30px;height:30px;background:var(--bg3);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:var(--text-dim);flex-shrink:0}
+.si.active .si-num{border-color:var(--gold);color:var(--gold)}
+.si-info{flex:1;min-width:0}
+.si-name{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.si-ar{font-family:'Amiri',serif;font-size:.85rem;color:var(--gold);direction:rtl;text-align:right}
+.si-count{font-size:.68rem;color:var(--text-dim)}
+.sb-load{padding:2rem;text-align:center;color:var(--text-dim);font-size:.85rem}
+
+/* MAIN - o'ng panel to'liq ko'rinadi, o'zi scroll qiladi */
+.main{padding:1.5rem;overflow-y:auto;height:100%;width:100%;box-sizing:border-box}
+.main::-webkit-scrollbar{width:3px}
+.main::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* PAGE SECTIONS */
+.page{display:none}
+.page.active{display:block}
+
+/* SURAH HEADER */
+.suh-card{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:1.5rem;padding:1.75rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.suh-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(200,168,75,.07) 0%,transparent 70%)}
+.suh-ar{font-family:'Amiri Quran',serif;font-size:2.8rem;color:var(--gold);margin-bottom:.2rem;position:relative}
+.suh-uz{font-family:'Playfair Display',serif;font-size:1.4rem;position:relative}
+.suh-en{color:var(--text-dim);font-size:.85rem;margin-bottom:.8rem;position:relative}
+.suh-meta{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;position:relative}
+.badge{background:var(--bg);border:1px solid var(--border);border-radius:2rem;padding:.2rem .75rem;font-size:.75rem;color:var(--text-dim)}
+
+/* CONTROLS */
+.ctrl-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;background:var(--bg2);border:1px solid var(--border);border-radius:1rem;padding:.75rem 1rem;margin-bottom:1.2rem}
+.font-grp{display:flex;gap:.35rem}
+.cb{background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);padding:.35rem .75rem;border-radius:.45rem;font-size:.8rem;cursor:pointer;transition:all .15s}
+.cb:hover{border-color:var(--gold);color:var(--gold)}
+.cb.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold-light)}
+
+/* AYAH CARD */
+.ayah-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:1.75rem;margin-bottom:1.2rem;animation:fadeUp .3s ease}
+.bismillah{text-align:center;font-family:'Amiri Quran',serif;font-size:2rem;color:var(--gold);padding:.75rem 0 1.25rem;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+
+/* Arabic text with word highlighting */
+.arabic-line{font-family:'Amiri Quran',serif;direction:rtl;text-align:center;line-height:2.2;margin-bottom:1rem;transition:font-size .2s}
+.arabic-line.sz-small{font-size:1.8rem}
+.arabic-line.sz-normal{font-size:2.5rem}
+.arabic-line.sz-large{font-size:3.5rem}
+
+/* Word-by-word span highlighting */
+.w{cursor:default;transition:color .15s,text-shadow .15s;border-radius:4px;padding:0 2px}
+.w.highlighted{color:#ffd700;text-shadow:0 0 18px rgba(255,215,0,.7)}
+.w.done{color:rgba(200,168,75,.45)}
+.w.pending{color:var(--gold-light)}
+
+.ayah-num-badge{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--gold-dim);color:var(--gold);font-size:.8rem;font-weight:700;margin:0 auto .75rem}
+.sec{border-radius:.75rem;padding:.9rem 1.1rem;margin-bottom:.9rem}
+.sec-lat{background:rgba(181,134,60,.08);border-left:3px solid var(--amber)}
+.sec-lat p{font-style:italic;color:#d4a96a;font-size:1rem;line-height:1.7}
+.sec-uz{background:rgba(45,106,79,.1);border-left:3px solid var(--green-l)}
+.sec-uz p{color:#7dd4b0;font-size:1rem;line-height:1.7}
+.sec-sh{background:rgba(107,79,138,.1);border-left:3px solid var(--purple)}
+.sec-sh-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#b08fd4;margin-bottom:.4rem}
+.sec-sh p{color:#c4a8e0;font-size:.95rem;line-height:1.75}
+
+/* PLAYER */
+.player-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:1.1rem 1.4rem;margin-bottom:1.2rem}
+.player-inner{display:flex;align-items:center;gap:1rem}
+.play-btn{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-l));border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 0 20px rgba(82,183,136,.25)}
+.play-btn:hover{transform:scale(1.08)}
+.pinfo{flex:1}
+.plabel{font-size:.8rem;color:var(--text-dim);margin-bottom:.2rem}
+.pbar-wrap{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;cursor:pointer}
+.pbar{height:100%;background:linear-gradient(90deg,var(--green),var(--green-l));border-radius:2px;width:0%;transition:width .1s linear}
+.ptime{font-size:.7rem;color:var(--text-dim);margin-top:.25rem}
+
+/* WORD-BY-WORD PANEL */
+.wbw-info{background:var(--bg3);border:1px solid var(--border);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:var(--text-dim);text-align:center;display:none}
+.wbw-info.show{display:block}
+
+/* NAV */
+.nav-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:1.1rem 1.4rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.nav-btn{display:flex;align-items:center;gap:.4rem;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.55rem 1rem;border-radius:.65rem;cursor:pointer;font-size:.85rem;transition:all .2s}
+.nav-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.ayah-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.45rem .65rem;border-radius:.55rem;font-size:.8rem;outline:none;cursor:pointer}
+
+/* ── ALPHABET PAGE ── */
+.alph-page h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--gold);margin-bottom:.25rem}
+.alph-page .sub{color:var(--text-dim);font-size:.9rem;margin-bottom:1.5rem}
+
+/* Tabs inside alphabet page */
+.alph-tabs{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.alph-tab{background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);padding:.4rem .9rem;border-radius:.5rem;cursor:pointer;font-size:.82rem;transition:all .2s}
+.alph-tab.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold-light)}
+
+/* Letter grid */
+.letter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.75rem;margin-bottom:2rem}
+.letter-card{background:var(--bg2);border:1px solid var(--border);border-radius:1rem;padding:1rem .75rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.letter-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 20px rgba(200,168,75,.1)}
+.letter-card.active{border-color:var(--gold);background:rgba(200,168,75,.08)}
+.lc-ar{font-family:'Amiri Quran',serif;font-size:2.2rem;color:var(--gold);line-height:1.3}
+.lc-name{font-size:.8rem;color:var(--text);margin-top:.25rem;font-weight:600}
+.lc-trans{font-size:.7rem;color:var(--text-dim)}
+.lc-forms{display:flex;justify-content:center;gap:.3rem;margin-top:.35rem;flex-wrap:wrap}
+.lc-form{font-family:'Amiri',serif;font-size:1.1rem;color:var(--amber);background:var(--bg3);border-radius:.3rem;padding:.1rem .3rem}
+
+/* Letter detail panel */
+.letter-detail{background:var(--bg2);border:1px solid var(--border);border-radius:1.25rem;padding:1.5rem;margin-bottom:1.5rem;display:none;animation:fadeUp .3s ease}
+.letter-detail.show{display:block}
+.ld-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.ld-big{font-family:'Amiri Quran',serif;font-size:5rem;color:var(--gold);line-height:1}
+.ld-info h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--text);margin-bottom:.25rem}
+.ld-info p{color:var(--text-dim);font-size:.9rem;line-height:1.6}
+.ld-forms-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.ld-form-item{text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:.75rem;padding:.6rem .9rem}
+.ld-form-ar{font-family:'Amiri',serif;font-size:1.8rem;color:var(--amber);direction:rtl}
+.ld-form-name{font-size:.7rem;color:var(--text-dim);margin-top:.2rem}
+.ld-examples{margin-top:.75rem}
+.ld-examples h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim);margin-bottom:.5rem}
+.example-list{display:flex;flex-wrap:wrap;gap:.5rem}
+.ex-word{background:var(--bg3);border:1px solid var(--border);border-radius:.5rem;padding:.35rem .75rem;font-family:'Amiri',serif;font-size:1.3rem;color:var(--gold-light);direction:rtl}
+.ex-word span{font-family:'Lato',sans-serif;font-size:.7rem;color:var(--text-dim);direction:ltr;display:block;text-align:center}
+
+/* TAJWEED / GRAMMAR SECTION */
+.section-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.25rem;padding:1.5rem;margin-bottom:1.25rem}
+.section-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold);margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.rule-list{display:flex;flex-direction:column;gap:.5rem}
+.rule-item{background:var(--bg3);border:1px solid var(--border);border-radius:.75rem;padding:.85rem 1rem;display:flex;gap:.75rem}
+.rule-icon{font-size:1.3rem;flex-shrink:0}
+.rule-text h4{font-size:.9rem;font-weight:700;margin-bottom:.25rem;color:var(--text)}
+.rule-text p{font-size:.82rem;color:var(--text-dim);line-height:1.5}
+.rule-text .ar{font-family:'Amiri',serif;font-size:1.2rem;color:var(--amber);direction:rtl;margin-top:.25rem}
+
+/* HARAKAT TABLE */
+.harakat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+.hk-card{background:var(--bg3);border:1px solid var(--border);border-radius:.75rem;padding:.85rem;text-align:center}
+.hk-ar{font-family:'Amiri Quran',serif;font-size:2rem;color:var(--gold);margin-bottom:.25rem}
+.hk-name{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.15rem}
+.hk-desc{font-size:.7rem;color:var(--text-dim);line-height:1.4}
+
+/* YOUTUBE SECTION */
+.yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem}
+.yt-card{background:var(--bg2);border:1px solid var(--border);border-radius:1rem;overflow:hidden;transition:all .2s;cursor:pointer;text-decoration:none;display:block}
+.yt-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 20px rgba(200,168,75,.1)}
+.yt-thumb{width:100%;aspect-ratio:16/9;background:var(--bg3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.yt-thumb-inner{font-size:2.5rem;display:flex;flex-direction:column;align-items:center;gap:.25rem}
+.yt-thumb-num{font-family:'Playfair Display',serif;font-size:.9rem;color:var(--text-dim);margin-top:.25rem}
+.yt-play-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.yt-card:hover .yt-play-overlay{opacity:1}
+.yt-play-circle{width:52px;height:52px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff}
+.yt-info{padding:.85rem}
+.yt-num{font-size:.7rem;color:var(--text-dim);margin-bottom:.2rem}
+.yt-title{font-size:.9rem;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:.25rem}
+.yt-desc{font-size:.75rem;color:var(--text-dim);line-height:1.4}
+
+
+/* ═══════════════════════════════════════
+   FLOATING AUDIO BUTTON + POPUP
+═══════════════════════════════════════ */
+
+/* Small floating button - bottom right */
+#audio-fab{
+  position:fixed;bottom:1.4rem;right:1.4rem;z-index:7000;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#1a4a35,#2d6a4f);
+  border:2px solid rgba(82,183,136,.3);
+  box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 0 rgba(82,183,136,.4);
+  cursor:pointer;display:none;align-items:center;justify-content:center;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+#audio-fab.show{display:flex}
+#audio-fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(0,0,0,.6),0 0 16px rgba(82,183,136,.3);border-color:rgba(82,183,136,.6)}
+#audio-fab.playing{animation:fabPulse 2s ease-in-out infinite}
+@keyframes fabPulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 0 rgba(82,183,136,.4)}50%{box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 8px rgba(82,183,136,.1)}}
+.fab-icon{font-size:1.1rem;color:#52b788;pointer-events:none;line-height:1}
+/* Progress ring around FAB */
+#fab-ring{position:absolute;inset:-3px;border-radius:50%;pointer-events:none}
+#fab-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+#fab-ring circle{fill:none;stroke:rgba(82,183,136,.15);stroke-width:2}
+#fab-ring .prog{stroke:rgba(82,183,136,.7);stroke-width:2;stroke-dasharray:0 200;stroke-linecap:round;transition:stroke-dasharray .1s linear}
+
+/* Popup panel */
+#audio-popup{
+  position:fixed;bottom:6rem;right:1.2rem;z-index:7001;
+  width:280px;
+  background:rgba(8,12,18,.97);
+  border:1px solid rgba(42,53,69,.9);
+  border-radius:1.1rem;
+  box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:.9rem 1rem 1rem;
+  transform:scale(.85) translateY(10px);
+  transform-origin:bottom right;
+  opacity:0;pointer-events:none;
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),opacity .18s ease;
+}
+#audio-popup.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+
+/* Track info */
+.ap-track{margin-bottom:.7rem}
+.ap-name{font-size:.82rem;font-weight:700;color:#e8e4d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.12rem}
+.ap-sub{font-size:.65rem;color:#3a5060}
+
+/* Seek bar */
+.ap-seek{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;cursor:pointer;margin-bottom:.3rem}
+.ap-seekfill{height:100%;background:linear-gradient(90deg,#2d6a4f,#52b788);width:0%;transition:width .1s linear;border-radius:2px;pointer-events:none}
+.ap-times{display:flex;justify-content:space-between;font-size:.6rem;color:#2a3a4a;margin-bottom:.75rem}
+
+/* Controls */
+.ap-ctrls{display:flex;align-items:center;justify-content:center;gap:.8rem}
+.ap-btn{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#5a7a8a;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.ap-btn:hover{border-color:var(--gold);color:var(--gold);transform:scale(1.08)}
+.ap-play-btn{width:46px;height:46px;font-size:1rem;background:linear-gradient(135deg,#2d6a4f,#52b788);border:none!important;color:#fff!important;box-shadow:0 0 18px rgba(82,183,136,.3)}
+.ap-play-btn:hover{transform:scale(1.1)!important;box-shadow:0 0 24px rgba(82,183,136,.5)!important;color:#fff!important}
+
+/* ═══════════════════════════════════════
+   VIDEO MODAL — full screen
+═══════════════════════════════════════ */
+#video-modal{
+  position:fixed;inset:0;z-index:9500;
+  background:rgba(0,0,0,.97);
+  display:none;
+  flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:1rem;
+}
+.vm-wrap{width:100%;max-width:980px;animation:vmSlideIn .22s ease}
+@keyframes vmSlideIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.vm-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.6rem;gap:.75rem;
+}
+.vm-title{
+  font-size:.82rem;color:var(--gold);font-weight:700;
+  flex:1;line-height:1.4;
+  overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;
+}
+.vm-close{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:#ccc;cursor:pointer;font-size:.95rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .18s;
+}
+.vm-close:hover{background:rgba(255,255,255,.18);transform:rotate(90deg);color:#fff}
+.vm-frame{
+  position:relative;padding-top:56.25%;
+  border-radius:.85rem;overflow:hidden;
+  background:#050608;
+  box-shadow:0 0 60px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.04);
+}
+.vm-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vm-hint{text-align:center;color:#1a2530;font-size:.65rem;margin-top:.5rem}
+.vm-err-hidden{display:none!important}
+
+/* SPINNER */
+.spinner{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-ov{position:fixed;inset:0;background:rgba(13,17,23,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:500}
+.load-card{background:var(--bg2);border:1px solid var(--border);border-radius:1rem;padding:2rem 3rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.load-card p{color:var(--text-dim);font-size:.9rem}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .4s,transform .4s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .main{padding:1rem}
+  .letter-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+  #mob-menu-btn{display:flex!important}
+}
+#mob-menu-btn{display:none}
+
+/* ── HIFZ MODE ── */
+.hifz-mode-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);
+  padding:.65rem 1rem;border-radius:.75rem;cursor:pointer;font-size:.85rem;font-weight:600;
+  text-align:center;transition:all .2s;line-height:1.5;width:100%}
+.hifz-mode-btn:hover{border-color:var(--gold);color:var(--gold)}
+.hifz-mode-btn.active{background:rgba(200,168,75,.12);border-color:var(--gold);color:var(--gold)}
+.hifz-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--border);transition:all .2s;flex-shrink:0}
+.hifz-dot.done{background:var(--green-l);border-color:var(--green-l)}
+.hifz-dot.current{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(200,168,75,.5)}
+
+/* ── THEMES ── */
+body.theme-dark{--bg:#0d1117;--bg2:#151b23;--bg3:#1e2733;--border:#2a3545;--text:#e8e4d8;--text-dim:#7a8899;--gold:#c8a84b;--gold-light:#e0c87a;--gold-dim:rgba(200,168,75,.12);--amber:#d4a96a;--green:#52b788;--green-l:#74c99a;--purple:#8b5cf6;--red:#c0392b}
+body.theme-green{--bg:#071510;--bg2:#0d2018;--bg3:#122a20;--border:#1a4030;--text:#d4e8d8;--text-dim:#5a8870;--gold:#6fbf8a;--gold-light:#8ed4a4;--gold-dim:rgba(111,191,138,.12);--amber:#a8c87a;--green:#52b788;--green-l:#74c99a;--purple:#7ec8b0;--red:#c05050}
+body.theme-blue{--bg:#07101a;--bg2:#0d1828;--bg3:#122035;--border:#1a3050;--text:#d4dce8;--text-dim:#5a7090;--gold:#4a9fd4;--gold-light:#6ab8e8;--gold-dim:rgba(74,159,212,.12);--amber:#7ab4d4;--green:#4ab4c8;--green-l:#6acce0;--purple:#9080e0;--red:#c05050}
+body.theme-brown{--bg:#120d07;--bg2:#1e1408;--bg3:#2a1c0c;--border:#3d2a10;--text:#e8dcc8;--text-dim:#907050;--gold:#c8963c;--gold-light:#e0b060;--gold-dim:rgba(200,150,60,.12);--amber:#c89050;--green:#8ab478;--green-l:#a0c890;--purple:#b07890;--red:#c05030}
+body.theme-night{--bg:#000000;--bg2:#080808;--bg3:#111111;--border:#1e1e1e;--text:#c8c0b0;--text-dim:#605850;--gold:#a88840;--gold-light:#c0a050;--gold-dim:rgba(168,136,64,.12);--amber:#b09060;--green:#487860;--green-l:#60986e;--purple:#706888;--red:#983020}
+
+.theme-bar{display:flex;gap:.4rem;align-items:center;padding:.3rem .5rem;background:var(--bg2);border:1px solid var(--border);border-radius:2rem;flex-wrap:wrap}
+.theme-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0}
+.theme-dot:hover{transform:scale(1.2)}
+.theme-dot.active{border-color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
+.theme-dot[data-t="dark"]{background:linear-gradient(135deg,#0d1117,#1e2733)}
+.theme-dot[data-t="green"]{background:linear-gradient(135deg,#071510,#1a4030)}
+.theme-dot[data-t="blue"]{background:linear-gradient(135deg,#07101a,#1a3050)}
+.theme-dot[data-t="brown"]{background:linear-gradient(135deg,#120d07,#3d2a10)}
+.theme-dot[data-t="night"]{background:linear-gradient(135deg,#000,#111)}
+.theme-dot[data-t="kaaba"]{background:radial-gradient(circle at 40% 40%,#2a1500,#000)}
+.theme-dot[data-t="masjid"]{background:linear-gradient(135deg,#001520,#003050)}
+.theme-dot[data-t="desert"]{background:linear-gradient(135deg,#1a1000,#3d2800)}
+
+body.theme-kaaba{--bg:#050200;--bg2:#0a0500;--bg3:#120800;--border:#2a1500;--text:#c8b890;--text-dim:#705830;--gold:#d4a030;--gold-light:#f0c050;--gold-dim:rgba(212,160,48,.12);--amber:#c89040;--green:#607840;--green-l:#809858;--purple:#806050;--red:#b04020}
+body.theme-masjid{--bg:#001018;--bg2:#001820;--bg3:#00222e;--border:#003048;--text:#c0d8e0;--text-dim:#406878;--gold:#30a8c0;--gold-light:#50c8e0;--gold-dim:rgba(48,168,192,.12);--amber:#60a8c0;--green:#308888;--green-l:#40a8a0;--purple:#5060a0;--red:#904040}
+body.theme-desert{--bg:#100800;--bg2:#1a1000;--bg3:#241800;--border:#402800;--text:#e0c898;--text-dim:#806040;--gold:#e0a030;--gold-light:#f8c050;--gold-dim:rgba(224,160,48,.12);--amber:#d09040;--green:#708040;--green-l:#88a050;--purple:#906070;--red:#b84030}
+</style>
+</head>
+<body class="theme-dark">
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box" id="login-box-main">
+    <div class="login-icon">📖</div>
+    <h1>Qur'oni Karim</h1>
+    <p id="login-desc">Shaxsiy kirish uchun tokeningizni kiriting</p>
+    <input type="password" id="tok" class="tok-inp" placeholder="••••••••••••" autocomplete="off" spellcheck="false">
+    <button class="login-btn" onclick="tryLogin()">Kirish →</button>
+    <div class="login-err" id="l-err">Noto'g'ri token.</div>
+    <div class="login-used" id="l-used">Token muddati tugagan yoki noto'g'ri.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL (faqat admin ko'radi, ilovaning ichida) -->
+<div id="admin-panel" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:9000;align-items:center;justify-content:center">
+  <div style="background:#151b23;border:1px solid #2a3545;border-radius:1.5rem;padding:2rem;max-width:520px;width:92%;max-height:85vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+      <h2 style="font-family:'Playfair Display',serif;color:#c8a84b;font-size:1.3rem">👑 Admin Panel</h2>
+      <button onclick="closeAdmin()" style="background:rgba(255,255,255,.08);border:1px solid #2a3545;color:#aaa;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem">×</button>
+    </div>
+
+    <!-- Yangi token yaratish -->
+    <div style="background:#1e2733;border:1px solid #2a3545;border-radius:1rem;padding:1.25rem;margin-bottom:1rem">
+      <h3 style="color:#c8a84b;font-size:.95rem;margin-bottom:1rem">➕ Yangi mehmon tokeni yaratish</h3>
+      <div style="display:flex;flex-direction:column;gap:.6rem">
+        <input type="text" id="new-tok-name" placeholder="Foydalanuvchi ismi (masalan: Ahmad)" 
+          style="background:#0d1117;border:1px solid #2a3545;color:#e8e4d8;padding:.6rem .9rem;border-radius:.6rem;font-size:.85rem;outline:none">
+        <input type="text" id="new-tok-val" placeholder="Token (masalan: ahmad-2025)" 
+          style="background:#0d1117;border:1px solid #2a3545;color:#e8e4d8;padding:.6rem .9rem;border-radius:.6rem;font-size:.85rem;outline:none">
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <select id="new-tok-limit" style="background:#0d1117;border:1px solid #2a3545;color:#e8e4d8;padding:.5rem .75rem;border-radius:.6rem;font-size:.82rem;outline:none;flex:1">
+            <option value="0">♾ Cheksiz kirish</option>
+            <option value="1">1 marta kirish</option>
+            <option value="3">3 marta kirish</option>
+            <option value="7">7 marta kirish</option>
+            <option value="30">30 marta kirish</option>
+          </select>
+          <select id="new-tok-expire" style="background:#0d1117;border:1px solid #2a3545;color:#e8e4d8;padding:.5rem .75rem;border-radius:.6rem;font-size:.82rem;outline:none;flex:1">
+            <option value="0">Muddatsiz</option>
+            <option value="1">1 kun</option>
+            <option value="7">7 kun</option>
+            <option value="30">30 kun</option>
+            <option value="90">90 kun</option>
+          </select>
+        </div>
+        <button onclick="createToken()" style="background:linear-gradient(135deg,#8a6f2e,#c8a84b);color:#0d1117;border:none;padding:.65rem;border-radius:.65rem;font-weight:700;cursor:pointer;font-size:.9rem">
+          ✓ Token yaratish
+        </button>
+        <div id="tok-created" style="display:none;background:rgba(82,183,136,.12);border:1px solid #2d6a4f;border-radius:.6rem;padding:.75rem;font-size:.82rem;color:#7dd4b0;word-break:break-all"></div>
+      </div>
+    </div>
+
+    <!-- Tokenlar ro'yxati -->
+    <div style="background:#1e2733;border:1px solid #2a3545;border-radius:1rem;padding:1.25rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.85rem">
+        <h3 style="color:#c8a84b;font-size:.95rem">📋 Barcha tokenlar</h3>
+        <button onclick="renderTokenList()" style="background:transparent;border:none;color:#7a7060;cursor:pointer;font-size:.8rem">🔄 Yangilash</button>
+      </div>
+      <div id="token-list" style="display:flex;flex-direction:column;gap:.5rem;max-height:280px;overflow-y:auto"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="bg-pat"></div>
+
+  <header>
+    <div class="hdr-left">
+      <span class="hdr-ar">القرآن الكريم</span>
+      <span class="hdr-uz">Qur'oni Karim</span>
+    </div>
+    <div class="hdr-right" style="gap:.4rem;flex-wrap:wrap;align-items:center">
+      <div class="theme-bar" title="Tema tanlash">
+        <span style="font-size:.6rem;color:var(--text-dim);white-space:nowrap">Tema:</span>
+        <div class="theme-dot active" data-t="dark" onclick="setTheme('dark')" title="Qora (standart)"></div>
+        <div class="theme-dot" data-t="night" onclick="setTheme('night')" title="Tungi"></div>
+        <div class="theme-dot" data-t="kaaba" onclick="setTheme('kaaba')" title="Ka’ba — islomiy"></div>
+        <div class="theme-dot" data-t="masjid" onclick="setTheme('masjid')" title="Masjid — islomiy"></div>
+        <div class="theme-dot" data-t="desert" onclick="setTheme('desert')" title="Sahra — islomiy"></div>
+        <div class="theme-dot" data-t="green" onclick="setTheme('green')" title="Yashil"></div>
+        <div class="theme-dot" data-t="blue" onclick="setTheme('blue')" title="Ko‘k"></div>
+        <div class="theme-dot" data-t="brown" onclick="setTheme('brown')" title="Jigarrang"></div>
+      </div>
+      <button class="ico-btn" id="mob-menu-btn" onclick="toggleMob()" title="Surahlar">☰</button>
+      <button class="ico-btn" id="sharh-btn" title="Sharh" onclick="toggleSharh()">📝</button>
+      <button class="ico-btn" id="admin-btn" onclick="openAdmin()" title="Admin Panel" style="display:none;border-color:#8a6f2e;color:#c8a84b">👑</button>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="tab-btn active" onclick="showPage('quran',this)">📖 Qur'on</button>
+    <button class="tab-btn" onclick="showPage('alphabet',this)">🔤 Arab Alifbosi</button>
+    <button class="tab-btn" onclick="showPage('harakat',this)">🔵 Harakatlar</button>
+    <button class="tab-btn" onclick="showPage('tajweed',this)">📚 Tajvid Qoidalari</button>
+    <button class="tab-btn" onclick="showPage('videos',this)">🎬 Video Darslar</button>
+    <button class="tab-btn" onclick="showPage('hifz',this)">🧠 Hifz Metodi</button>
+  </nav>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-search">
+        <input type="text" id="sb-inp" placeholder="Surah qidirish..." oninput="filterSurahs()">
+      </div>
+      <div class="surah-list" id="surah-list">
+        <div class="sb-load"><div class="spinner"></div><br>Yuklanmoqda...</div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="main">
+
+      <!-- QURAN PAGE -->
+      <div class="page active" id="page-quran">
+        <div style="display:flex;align-items:center;justify-content:center;height:40vh;color:var(--text-dim)">
+          <div style="text-align:center"><div class="spinner"></div><p style="margin-top:1rem">Yuklanmoqda...</p></div>
+        </div>
+      </div>
+
+      <!-- ALPHABET PAGE -->
+      <div class="page alph-page" id="page-alphabet">
+        <h2>Arab Alifbosi</h2>
+        <p class="sub">28 ta arab harfi — ko'rinishlari, o'qilishi va misollar</p>
+        <div class="alph-tabs">
+          <button class="alph-tab active" onclick="setAlphTab('all',this)">Barcha harflar</button>
+          <button class="alph-tab" onclick="setAlphTab('shamsi',this)">Shamsiy harflar</button>
+          <button class="alph-tab" onclick="setAlphTab('qamari',this)">Qamariy harflar</button>
+          <button class="alph-tab" onclick="setAlphTab('makhraj',this)">Makhraj bo'yicha</button>
+        </div>
+        <div class="letter-detail" id="letter-detail"></div>
+        <div class="letter-grid" id="letter-grid"></div>
+      </div>
+
+      <!-- HARAKAT PAGE -->
+      <div class="page" id="page-harakat">
+        <div class="section-card reveal">
+          <h3>🔵 Harakatlar (Tashkil)</h3>
+          <div class="harakat-grid" id="harakat-grid"></div>
+        </div>
+        <div class="section-card reveal">
+          <h3>✍️ Qisqa va uzun unlilar</h3>
+          <div class="rule-list" id="vowels-rules"></div>
+        </div>
+        <div class="section-card reveal">
+          <h3>🔗 Tanvin (Nunatsiya)</h3>
+          <div class="harakat-grid" id="tanwin-grid"></div>
+        </div>
+      </div>
+
+      <!-- TAJWEED PAGE -->
+      <div class="page" id="page-tajweed">
+        <div class="section-card reveal">
+          <h3>📚 Asosiy Tajvid Qoidalari</h3>
+          <div class="rule-list" id="tajweed-rules"></div>
+        </div>
+        <div class="section-card reveal" style="margin-top:1.25rem">
+          <h3>🌟 Idgom turlari</h3>
+          <div class="rule-list" id="idgham-rules"></div>
+        </div>
+        <div class="section-card reveal" style="margin-top:1.25rem">
+          <h3>🔤 Makhorijul Huruf — Makhraj joylari</h3>
+          <div class="rule-list" id="makhraj-rules"></div>
+        </div>
+      </div>
+
+      <!-- VIDEOS PAGE -->
+      <div class="page" id="page-videos">
+        <div class="section-card reveal" style="margin-bottom:1.25rem">
+          <h3>🎬 Arab Alifbosi — Video Darslar</h3>
+          <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:1.25rem">
+            Quyidagi video darslar orqali arab alifbosini to'liq o'rganishingiz mumkin. Har bir video bosqichma-bosqich tushuntiradi.
+          </p>
+          <div class="yt-grid" id="yt-grid"></div>
+        </div>
+      </div>
+
+
+      <!-- HIFZ PAGE -->
+      <div class="page" id="page-hifz">
+        <!-- Mode selector -->
+        <div class="section-card reveal" style="margin-bottom:1rem">
+          <h3>🧠 Hifz Metodi — Yodlash Rejimi</h3>
+          <p style="font-size:.83rem;color:var(--text-dim);margin-bottom:1rem">
+            Ilmiy tadqiqotlarga asoslangan eng samarali Qur'on yodlash usuli: <b style="color:var(--gold)">Takroriy eshitish + Ko'rsatib-yashirish (Active Recall)</b>.
+            Chunki passiv tinglash emas, faol xotira sinovi yodlash tezligini 3–5 barobar oshiradi.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1rem">
+            <button class="hifz-mode-btn active" id="hm-listen" onclick="hifzSetMode('listen',this)">
+              🎧 Takroriy Eshitish<br><span style="font-size:.7rem;opacity:.7">Audio loop bilan yodlash</span>
+            </button>
+            <button class="hifz-mode-btn" id="hm-recall" onclick="hifzSetMode('recall',this)">
+              👁 Ko'rsatib-Yashirish<br><span style="font-size:.7rem;opacity:.7">Active Recall usuli</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Surah & range selector -->
+        <div class="section-card reveal" style="margin-bottom:1rem">
+          <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-end">
+            <div style="flex:1;min-width:140px">
+              <div style="font-size:.75rem;color:var(--text-dim);margin-bottom:.35rem">Sura</div>
+              <select id="hifz-surah-sel" onchange="hifzOnSurahChange()" style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:.6rem;font-size:.85rem;outline:none"></select>
+            </div>
+            <div style="min-width:90px">
+              <div style="font-size:.75rem;color:var(--text-dim);margin-bottom:.35rem">Boshlang'ich oyat</div>
+              <select id="hifz-from" onchange="hifzRangeChanged()" style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:.6rem;font-size:.85rem;outline:none"></select>
+            </div>
+            <div style="min-width:90px">
+              <div style="font-size:.75rem;color:var(--text-dim);margin-bottom:.35rem">Oxirgi oyat</div>
+              <select id="hifz-to" onchange="hifzRangeChanged()" style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:.6rem;font-size:.85mm;outline:none"></select>
+            </div>
+            <div style="min-width:90px">
+              <div style="font-size:.75rem;color:var(--text-dim);margin-bottom:.35rem">Har oyat takror</div>
+              <select id="hifz-rept" style="width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem .75rem;border-radius:.6rem;font-size:.85rem;outline:none">
+                <option value="1">1x</option><option value="3">3x</option><option value="5" selected>5x</option>
+                <option value="7">7x</option><option value="10">10x</option><option value="20">20x</option>
+              </select>
+            </div>
+            <button onclick="hifzStart()" style="background:linear-gradient(135deg,var(--green),var(--green-l));border:none;color:#fff;padding:.6rem 1.2rem;border-radius:.65rem;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap">▶ Boshlash</button>
+          </div>
+        </div>
+
+        <!-- Listen Mode Panel -->
+        <div id="hifz-listen-panel" class="reveal">
+          <div class="section-card" id="hifz-listen-card" style="display:none">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+              <div>
+                <div id="hifz-progress-lbl" style="font-size:.78rem;color:var(--text-dim)">0/0 oyat · 0/0 takror</div>
+                <div id="hifz-ayah-lbl" style="font-size:1rem;color:var(--gold);font-weight:700;margin-top:.1rem">—</div>
+              </div>
+              <div style="display:flex;gap:.4rem">
+                <button onclick="hifzToggleArabic()" id="hifz-ar-btn" class="cb active" title="Arabcha matnni ko'rsat/yashir">عربي</button>
+                <button onclick="hifzToggleUzbek()" id="hifz-uz-btn" class="cb active" title="Tarjimani ko'rsat/yashir">O'zbek</button>
+              </div>
+            </div>
+            <!-- Progress bar -->
+            <div style="height:4px;background:var(--bg3);border-radius:2px;margin-bottom:1.25rem;overflow:hidden">
+              <div id="hifz-pbar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--green-l));border-radius:2px;width:0%;transition:width .3s"></div>
+            </div>
+            <!-- Ayah display -->
+            <div id="hifz-arabic-box" style="font-family:'Amiri Quran',serif;font-size:2.4rem;direction:rtl;text-align:center;line-height:2;color:var(--gold);margin-bottom:.75rem;min-height:3rem"></div>
+            <div id="hifz-repeat-dots" style="display:flex;justify-content:center;gap:.35rem;margin-bottom:.75rem;flex-wrap:wrap"></div>
+            <div id="hifz-uzbek-box" style="text-align:center;font-size:.9rem;color:#7dd4b0;line-height:1.6;min-height:1.5rem;padding:.5rem;background:rgba(45,106,79,.08);border-radius:.5rem"></div>
+            <!-- Controls -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:.6rem;margin-top:1.25rem;flex-wrap:wrap">
+              <button class="nav-btn" onclick="hifzPrevAyah()">&#9664; Oldingi</button>
+              <button class="play-btn" id="hifz-play-btn" onclick="hifzTogglePlay()" style="width:52px;height:52px">▶</button>
+              <button class="nav-btn" onclick="hifzNextAyah()">Keyingi &#9654;</button>
+            </div>
+            <div style="text-align:center;margin-top:.75rem">
+              <button onclick="hifzStop()" style="background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:.35rem 1rem;border-radius:.5rem;cursor:pointer;font-size:.78rem">■ To'xtatish</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recall Mode Panel -->
+        <div id="hifz-recall-panel" style="display:none">
+          <div class="section-card reveal" id="hifz-recall-card" style="display:none">
+            <div style="text-align:center;margin-bottom:1rem">
+              <div id="hifz-recall-lbl" style="font-size:.8rem;color:var(--text-dim);margin-bottom:.4rem">Oyat ?/?</div>
+              <div style="font-size:.75rem;color:var(--text-dim)">Birinchi so'zni ko'ring, qolganini eslashga harakat qiling</div>
+            </div>
+            <div style="height:4px;background:var(--bg3);border-radius:2px;margin-bottom:1.25rem;overflow:hidden">
+              <div id="hifz-recall-pbar" style="height:100%;background:linear-gradient(90deg,#6b4f8a,#b08fd4);border-radius:2px;width:0%;transition:width .3s"></div>
+            </div>
+            <!-- Hint: show first word -->
+            <div id="hifz-hint-box" style="font-family:'Amiri Quran',serif;font-size:1.6rem;direction:rtl;text-align:center;color:var(--amber);margin-bottom:.6rem;min-height:2rem"></div>
+            <!-- Hidden text revealed on tap -->
+            <div id="hifz-reveal-box" style="font-family:'Amiri Quran',serif;font-size:2.2rem;direction:rtl;text-align:center;line-height:2;color:var(--gold);min-height:3rem;filter:blur(12px);transition:filter .4s;cursor:pointer" onclick="hifzReveal()"></div>
+            <div id="hifz-recall-uzbek" style="text-align:center;font-size:.85rem;color:#7dd4b0;margin-top:.5rem;opacity:0;transition:opacity .4s"></div>
+            <div style="text-align:center;color:var(--text-dim);font-size:.75rem;margin-top:.4rem" id="hifz-reveal-hint">👆 Matnni ochish uchun bosing</div>
+            <!-- Rate buttons -->
+            <div id="hifz-rate-btns" style="display:none;justify-content:center;gap:.5rem;margin-top:1rem;flex-wrap:wrap">
+              <button onclick="hifzRate('hard')" style="background:rgba(192,57,43,.15);border:1px solid #c0392b;color:#e07070;padding:.45rem 1rem;border-radius:.6rem;cursor:pointer;font-size:.82rem">😓 Qiyin</button>
+              <button onclick="hifzRate('ok')" style="background:rgba(181,134,60,.12);border:1px solid var(--amber);color:var(--amber);padding:.45rem 1rem;border-radius:.6rem;cursor:pointer;font-size:.82rem">🤔 O'rtacha</button>
+              <button onclick="hifzRate('easy')" style="background:rgba(45,106,79,.15);border:1px solid var(--green-l);color:var(--green-l);padding:.45rem 1rem;border-radius:.6rem;cursor:pointer;font-size:.82rem">✅ Yodladim!</button>
+            </div>
+            <div style="display:flex;justify-content:center;margin-top:.75rem">
+              <button onclick="hifzStop()" style="background:transparent;border:1px solid var(--border);color:var(--text-dim);padding:.35rem 1rem;border-radius:.5rem;cursor:pointer;font-size:.78rem">■ To'xtatish</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="section-card reveal" id="hifz-stats-card" style="display:none">
+          <h3 style="font-size:1rem;margin-bottom:.75rem">📊 Sessiya natijalari</h3>
+          <div id="hifz-stats-body"></div>
+        </div>
+
+        <!-- Tips -->
+        <div class="section-card reveal" style="margin-top:.5rem">
+          <h3 style="font-size:1rem;margin-bottom:.75rem">💡 Ilmiy yodlash usullari</h3>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div class="rule-item"><div class="rule-icon">🔄</div><div class="rule-text"><h4>Takrorlash soni</h4><p>Har bir oyatni kamida 7 marta takrorlab o'qing — 3 eshitib, 4 o'zingiz o'qib.</p></div></div>
+            <div class="rule-item"><div class="rule-icon">🔗</div><div class="rule-text"><h4>Bog'lash usuli</h4><p>Yangi oyatni oldingi oyatlar bilan birga o'qing. 5 yangi oyat + oldingi 10 oyat birga mashq.</p></div></div>
+            <div class="rule-item"><div class="rule-icon">⏰</div><div class="rule-text"><h4>Eng yaxshi vaqt</h4><p>Bomdod namozidan keyin — xotira eng yuqori darajada bo'ladi. Kuniga max 5–10 oyat yodlang.</p></div></div>
+            <div class="rule-item"><div class="rule-icon">🌙</div><div class="rule-text"><h4>Uxlashdan oldin</h4><p>Yotishdan oldin yodlagan oyatlarni ko'zingizni yumib, ovoz chiqarib takrorlang. Uyqu xotirani mustahkamlaydi.</p></div></div>
+            <div class="rule-item"><div class="rule-icon">📖</div><div class="rule-text"><h4>Mushaf bilan</h4><p>Har doim bir xil Mushaf nashri va xattidan foydalaning — ko'z xotirasi yordam beradi.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="load-ov" id="load-ov" style="display:none">
+  <div class="load-card">
+    <div class="spinner"></div>
+    <p id="load-txt">Yuklanmoqda...</p>
+  </div>
+</div>
+
+<!-- FLOATING AUDIO BUTTON -->
+<div id="audio-fab" onclick="fabTogglePopup()">
+  <div id="fab-ring">
+    <svg viewBox="0 0 58 58">
+      <circle cx="29" cy="29" r="26"/>
+      <circle class="prog" id="fab-prog-circle" cx="29" cy="29" r="26" stroke-dasharray="0 163.4"/>
+    </svg>
+  </div>
+  <span class="fab-icon" id="fab-icon">&#9654;</span>
+</div>
+
+<!-- AUDIO POPUP -->
+<div id="audio-popup">
+  <div class="ap-track">
+    <div class="ap-name" id="ap-name">&#8212;</div>
+    <div class="ap-sub" id="ap-sub">Mishary Rashed al-Afasy</div>
+  </div>
+  <div class="ap-seek" id="ap-seek" onclick="apSeek(event)">
+    <div class="ap-seekfill" id="ap-seekfill"></div>
+  </div>
+  <div class="ap-times"><span id="ap-cur">0:00</span><span id="ap-dur">0:00</span></div>
+  <div class="ap-ctrls">
+    <button class="ap-btn" onclick="gpPrev()" title="Oldingi">&#9664;&#9664;</button>
+    <button class="ap-btn ap-play-btn" id="ap-play-btn" onclick="gpTogglePlay()">&#9654;</button>
+    <button class="ap-btn" onclick="gpNext()" title="Keyingi">&#9654;&#9654;</button>
+  </div>
+</div>
+
+<!-- VIDEO MODAL — ilovaning ichida ishlaydi -->
+<div id="video-modal" onclick="this===event.target&&closeVideoModal()">
+  <div class="vm-wrap" onclick="event.stopPropagation()">
+    <div class="vm-header">
+      <div class="vm-title" id="vm-title"></div>
+      <button class="vm-close" onclick="closeVideoModal()">&#10005;</button>
+    </div>
+    <div class="vm-frame" id="vm-frame">
+      <iframe id="vm-iframe" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      <div id="vm-err" class="vm-err-hidden" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a0c10;gap:1rem">
+        <div style="font-size:2.5rem;opacity:.3">&#127916;</div>
+        <div style="color:#5a6a7a;font-size:.85rem;text-align:center;line-height:1.6">Video yuklanmadi.<br>Quyidagi tugma orqali ko'ring</div>
+        <a id="vm-yt-link" href="#" target="_blank" rel="noopener" style="background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;padding:.6rem 1.4rem;border-radius:.6rem;font-size:.85rem;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:.4rem;box-shadow:0 2px 12px rgba(192,57,43,.35)">&#9654; YouTube da ko'rish</a>
+      </div>
+    </div>
+    <p class="vm-hint">&#10005; yoki tashqariga bosib yoping &nbsp;&bull;&nbsp; ESC</p>
+  </div>
+</div>
+
+<audio id="aud" preload="none"></audio>
+
+<script>
+
+// ══ XAVFSIZLIK MODULI ══
+(function(){
+  // 1. DevTools ochilishini aniqlash
+  var devOpen=false;
+  var threshold=160;
+  function checkDev(){
+    if(window.outerWidth-window.innerWidth>threshold||window.outerHeight-window.innerHeight>threshold){
+      if(!devOpen){devOpen=true;document.body.style.filter='blur(999px)';}}
+    else{if(devOpen){devOpen=false;document.body.style.filter='';}}
+  }
+  setInterval(checkDev,1000);
+
+  // 2. Right-click o'chirish
+  document.addEventListener('contextmenu',function(e){e.preventDefault();});
+
+  // 3. F12 va Ctrl+Shift+I bloklash
+  document.addEventListener('keydown',function(e){
+    if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&(e.keyCode===73||e.keyCode===74||e.keyCode===67))||(e.ctrlKey&&e.keyCode===85)){
+      e.preventDefault();return false;
+    }
+  });
+
+  // 4. Console.log override (ma'lumot oqishini oldini olish)
+  var noop=function(){};
+  try{
+    Object.defineProperty(window,'console',{value:{log:noop,warn:noop,error:noop,info:noop,debug:noop,trace:noop},writable:false});
+  }catch(ex){}
+
+  // 5. Text tanlashni cheklash (matnni ko'chirishni oldini olish)
+  document.addEventListener('selectstart',function(e){
+    if(e.target.tagName!=='INPUT'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();}
+  });
+
+  // 6. Copy-paste bloklash (ma'lumotni nusxalashni cheklash)
+  document.addEventListener('copy',function(e){
+    if(e.target.tagName!=='INPUT'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();}
+  });
+})();
+
+// ══ TOKEN SHIFRLASH ══
+// Token localStorage da shifrlangan holda saqlanadi
+function _enc(s){var r='';for(var i=0;i<s.length;i++){r+=String.fromCharCode(s.charCodeAt(i)^0x5A);}return btoa(r);}
+function _dec(s){try{var r=atob(s),o='';for(var i=0;i<r.length;i++){o+=String.fromCharCode(r.charCodeAt(i)^0x5A);}return o;}catch(e){return '';}}
+function safeGet(k){try{var v=localStorage.getItem(_enc(k));return v?_dec(v):null;}catch(e){return null;}}
+function safeSet(k,v){try{localStorage.setItem(_enc(k),_enc(v));}catch(e){}}
+function safeDel(k){try{localStorage.removeItem(_enc(k));}catch(e){}}
+
+// ══ TOKEN / AUTH TIZIMI ══
+const ADMIN_TOKEN = "Benny198720406";
+const TOKENS_KEY  = "qt_tokens_v1";
+const SESSION_KEY = "qt_session_v2";
+
+function getTokens(){
+  try{ var _v=safeGet(TOKENS_KEY); return JSON.parse(_v||'{}'); }catch(e){ return {}; }
+}
+function saveTokens(t){ safeSet(TOKENS_KEY, JSON.stringify(t)); }
+
+function tryLogin(){
+  const v = document.getElementById('tok').value.trim();
+  const errEl  = document.getElementById('l-err');
+  const usedEl = document.getElementById('l-used');
+  errEl.style.display='none'; usedEl.style.display='none';
+
+  if(v === ADMIN_TOKEN){
+    var _sd=JSON.stringify({role:'admin'});sessionStorage.setItem(SESSION_KEY,_sd);safeSet('_sess_'+SESSION_KEY,_sd);
+    enterApp(true); return;
+  }
+
+  const tokens = getTokens();
+  const tok = tokens[v];
+  if(!tok){ errEl.style.display='block'; return; }
+
+  if(tok.expire && Date.now() > tok.expire){
+    usedEl.textContent="Bu tokenning muddati tugagan.";
+    usedEl.style.display='block'; return;
+  }
+  if(tok.limit > 0 && tok.used >= tok.limit){
+    usedEl.textContent="Bu token limitiga yetdi ("+tok.limit+" marta).";
+    usedEl.style.display='block'; return;
+  }
+
+  tok.used=(tok.used||0)+1;
+  tok.lastUsed=Date.now();
+  tokens[v]=tok; saveTokens(tokens);
+  var _gd=JSON.stringify({role:'guest',token:v,name:tok.name});sessionStorage.setItem(SESSION_KEY,_gd);safeSet('_sess_'+SESSION_KEY,_gd);
+  enterApp(false);
+}
+
+function checkSess(){
+  const s=safeGet('_sess_'+SESSION_KEY)||sessionStorage.getItem(SESSION_KEY);
+  if(s){ try{ const d=JSON.parse(s); enterApp(d.role==='admin'); }catch{ sessionStorage.removeItem(SESSION_KEY); } }
+}
+document.getElementById('tok').addEventListener('keydown',e=>{if(e.key==='Enter')tryLogin();});
+
+// ══ ADMIN PANEL ══
+let isAdmin=false;
+function openAdmin(){ document.getElementById('admin-panel').style.display='flex'; renderTokenList(); }
+function closeAdmin(){ document.getElementById('admin-panel').style.display='none'; }
+
+function createToken(){
+  const name  = document.getElementById('new-tok-name').value.trim();
+  const val   = document.getElementById('new-tok-val').value.trim();
+  const limit = parseInt(document.getElementById('new-tok-limit').value);
+  const expDay= parseInt(document.getElementById('new-tok-expire').value);
+  if(!name||!val){ alert("Ism va token kiritish shart!"); return; }
+  if(val===ADMIN_TOKEN){ alert("Admin tokeni bilan bir xil bo'lmaydi!"); return; }
+  const tokens=getTokens();
+  tokens[val]={name, limit, used:0, created:Date.now(),
+    expire: expDay>0 ? Date.now()+expDay*86400000 : 0, lastUsed:null};
+  saveTokens(tokens);
+  const expTxt=expDay>0?expDay+" kun":"Muddatsiz";
+  const limTxt=limit>0?limit+" marta":"Cheksiz";
+  const el=document.getElementById('tok-created');
+  el.style.display='block';
+  el.innerHTML="Yaratildi! Token: <b>"+val+"</b> | "+name+" | "+limTxt+" | "+expTxt;
+  document.getElementById('new-tok-name').value='';
+  document.getElementById('new-tok-val').value='';
+  renderTokenList();
+}
+
+function deleteToken(val){
+  if(!confirm(val+" tokenini o'chirish?")) return;
+  const tokens=getTokens(); delete tokens[val]; saveTokens(tokens); renderTokenList();
+}
+function resetToken(val){
+  const tokens=getTokens();
+  if(tokens[val]){tokens[val].used=0; saveTokens(tokens); renderTokenList();}
+}
+
+function renderTokenList(){
+  const tokens=getTokens(), keys=Object.keys(tokens);
+  const el=document.getElementById('token-list'); if(!el)return;
+  if(keys.length===0){
+    el.innerHTML='<div style="color:#4a3a2a;font-size:.82rem;text-align:center;padding:1rem">Hali mehmon tokeni yoq</div>';
+    return;
+  }
+  const now=Date.now();
+  el.innerHTML=keys.map(function(k){
+    const t=tokens[k];
+    const expired=t.expire&&now>t.expire;
+    const limitHit=t.limit>0&&t.used>=t.limit;
+    const status=expired?'Muddati tugagan':limitHit?'Limit tugagan':'Faol';
+    const statusColor=expired||limitHit?'#e07070':'#7dd4b0';
+    const expTxt=t.expire?new Date(t.expire).toLocaleDateString('ru-RU'):'\u221e';
+    const limTxt=t.limit>0?t.used+'/'+t.limit:'\u221e';
+    return '<div style="background:#0d1117;border:1px solid '+(expired||limitHit?'#5a3030':'#2a3545')+';border-radius:.65rem;padding:.7rem .9rem;font-size:.78rem;margin-bottom:.35rem">'
+      +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem">'
+      +'<div><div style="font-weight:700;color:#e8e4d8;margin-bottom:.15rem">'+t.name+'</div>'
+      +'<div style="color:#c8a84b;font-family:monospace;margin-bottom:.2rem">'+k+'</div>'
+      +'<div style="color:'+statusColor+'">'+status+' &nbsp;|&nbsp; Kirish: '+limTxt+' &nbsp;|&nbsp; Muddat: '+expTxt+'</div></div>'
+      +'<div style="display:flex;gap:.3rem;flex-shrink:0">'
+      +'<button onclick="resetToken(\''+k+'\')" title="Nolga qaytarish" style="background:#1e2733;border:1px solid #2a3545;color:#7a7060;width:28px;height:28px;border-radius:.4rem;cursor:pointer">\u21ba</button>'
+      +'<button onclick="deleteToken(\''+k+'\')" title="Ochirish" style="background:#2d1010;border:1px solid #5a2020;color:#e07070;width:28px;height:28px;border-radius:.4rem;cursor:pointer">\u00d7</button>'
+      +'</div></div></div>';
+  }).join('');
+}
+
+// ══ STATE ══
+let allSurahs=[],curSurah=null,curIdx=0,showSh=true,fontSize='normal',isPlaying=false,mobOpen=false;
+const FATIHA1_WORDS=[
+  {ar:'\u0628\u0650\u0633\u0652\u0645\u0650',s:0.0,e:1.1},
+  {ar:'\u0627\u0644\u0644\u0651\u064e\u0647\u0650',s:1.1,e:2.4},
+  {ar:'\u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650',s:2.4,e:4.2},
+  {ar:'\u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650',s:4.2,e:6.5}
+];
+
+
+// ══ SURAH META ══
+const SURAH_META=[
+  {n:1,ar:'\u0627\u0644\u0641\u0627\u062a\u062d\u0629',en:'Al-Fatihah',uz:'Fotiha',ay:7,mk:true},
+  {n:2,ar:'\u0627\u0644\u0628\u0642\u0631\u0629',en:'Al-Baqarah',uz:'Baqara',ay:286,mk:false},
+  {n:3,ar:'\u0622\u0644 \u0639\u0645\u0631\u0627\u0646',en:"Ali 'Imran",uz:'Ol Imron',ay:200,mk:false},
+  {n:4,ar:'\u0627\u0644\u0646\u0633\u0627\u0621',en:'An-Nisa',uz:'Niso',ay:176,mk:false},
+  {n:5,ar:'\u0627\u0644\u0645\u0627\u0626\u062f\u0629',en:'Al-Maidah',uz:'Moida',ay:120,mk:false},
+  {n:6,ar:'\u0627\u0644\u0623\u0646\u0639\u0627\u0645',en:'Al-Anam',uz:"An'om",ay:165,mk:true},
+  {n:7,ar:'\u0627\u0644\u0623\u0639\u0631\u0627\u0641',en:'Al-Araf',uz:"A'rof",ay:206,mk:true},
+  {n:8,ar:'\u0627\u0644\u0623\u0646\u0641\u0627\u0644',en:'Al-Anfal',uz:'Anfol',ay:75,mk:false},
+  {n:9,ar:'\u0627\u0644\u062a\u0648\u0628\u0629',en:'At-Tawbah',uz:'Tavba',ay:129,mk:false},
+  {n:10,ar:'\u064a\u0648\u0646\u0633',en:'Yunus',uz:'Yunus',ay:109,mk:true},
+  {n:11,ar:'\u0647\u0648\u062f',en:'Hud',uz:'Hud',ay:123,mk:true},
+  {n:12,ar:'\u064a\u0648\u0633\u0641',en:'Yusuf',uz:'Yusuf',ay:111,mk:true},
+  {n:13,ar:'\u0627\u0644\u0631\u0639\u062f',en:'Ar-Rad',uz:"Ra'd",ay:43,mk:false},
+  {n:14,ar:'\u0625\u0628\u0631\u0627\u0647\u064a\u0645',en:'Ibrahim',uz:'Ibrohim',ay:52,mk:true},
+  {n:15,ar:'\u0627\u0644\u062d\u062c\u0631',en:'Al-Hijr',uz:'Hijr',ay:99,mk:true},
+  {n:16,ar:'\u0627\u0644\u0646\u062d\u0644',en:'An-Nahl',uz:'Nahl',ay:128,mk:true},
+  {n:17,ar:'\u0627\u0644\u0625\u0633\u0631\u0627\u0621',en:'Al-Isra',uz:'Isro',ay:111,mk:true},
+  {n:18,ar:'\u0627\u0644\u0643\u0647\u0641',en:'Al-Kahf',uz:'Kahf',ay:110,mk:true},
+  {n:19,ar:'\u0645\u0631\u064a\u0645',en:'Maryam',uz:'Maryam',ay:98,mk:true},
+  {n:20,ar:'\u0637\u0647',en:'Taha',uz:'Toha',ay:135,mk:true},
+  {n:21,ar:'\u0627\u0644\u0623\u0646\u0628\u064a\u0627\u0621',en:'Al-Anbiya',uz:'Anbiyo',ay:112,mk:true},
+  {n:22,ar:'\u0627\u0644\u062d\u062c',en:'Al-Hajj',uz:'Haj',ay:78,mk:false},
+  {n:23,ar:'\u0627\u0644\u0645\u0624\u0645\u0646\u0648\u0646',en:'Al-Muminun',uz:"Mu'minun",ay:118,mk:true},
+  {n:24,ar:'\u0627\u0644\u0646\u0648\u0631',en:'An-Nur',uz:'Nur',ay:64,mk:false},
+  {n:25,ar:'\u0627\u0644\u0641\u0631\u0642\u0627\u0646',en:'Al-Furqan',uz:'Furqon',ay:77,mk:true},
+  {n:26,ar:'\u0627\u0644\u0634\u0639\u0631\u0627\u0621',en:'Ash-Shuara',uz:"Shu'aro",ay:227,mk:true},
+  {n:27,ar:'\u0627\u0644\u0646\u0645\u0644',en:'An-Naml',uz:'Naml',ay:93,mk:true},
+  {n:28,ar:'\u0627\u0644\u0642\u0635\u0635',en:'Al-Qasas',uz:'Qasas',ay:88,mk:true},
+  {n:29,ar:'\u0627\u0644\u0639\u0646\u0643\u0628\u0648\u062a',en:'Al-Ankabut',uz:"'Ankabut",ay:69,mk:true},
+  {n:30,ar:'\u0627\u0644\u0631\u0648\u0645',en:'Ar-Rum',uz:'Rum',ay:60,mk:true},
+  {n:31,ar:'\u0644\u0642\u0645\u0627\u0646',en:'Luqman',uz:'Luqmon',ay:34,mk:true},
+  {n:32,ar:'\u0627\u0644\u0633\u062c\u062f\u0629',en:'As-Sajdah',uz:'Sajda',ay:30,mk:true},
+  {n:33,ar:'\u0627\u0644\u0623\u062d\u0632\u0627\u0628',en:'Al-Ahzab',uz:'Ahzob',ay:73,mk:false},
+  {n:34,ar:'\u0633\u0628\u0623',en:"Saba",uz:"Saba'",ay:54,mk:true},
+  {n:35,ar:'\u0641\u0627\u0637\u0631',en:'Fatir',uz:'Fotir',ay:45,mk:true},
+  {n:36,ar:'\u064a\u0633',en:'Ya-Sin',uz:'Yosin',ay:83,mk:true},
+  {n:37,ar:'\u0627\u0644\u0635\u0627\u0641\u0627\u062a',en:'As-Saffat',uz:'Soffot',ay:182,mk:true},
+  {n:38,ar:'\u0635',en:'Sad',uz:'Sod',ay:88,mk:true},
+  {n:39,ar:'\u0627\u0644\u0632\u0645\u0631',en:'Az-Zumar',uz:'Zumar',ay:75,mk:true},
+  {n:40,ar:'\u063a\u0627\u0641\u0631',en:'Ghafir',uz:"G'ofir",ay:85,mk:true},
+  {n:41,ar:'\u0641\u0635\u0644\u062a',en:'Fussilat',uz:'Fussilat',ay:54,mk:true},
+  {n:42,ar:'\u0627\u0644\u0634\u0648\u0631\u0649',en:'Ash-Shuraa',uz:'Shuro',ay:53,mk:true},
+  {n:43,ar:'\u0627\u0644\u0632\u062e\u0631\u0641',en:'Az-Zukhruf',uz:'Zuxruf',ay:89,mk:true},
+  {n:44,ar:'\u0627\u0644\u062f\u062e\u0627\u0646',en:'Ad-Dukhan',uz:'Duxon',ay:59,mk:true},
+  {n:45,ar:'\u0627\u0644\u062c\u0627\u062b\u064a\u0629',en:'Al-Jathiyah',uz:'Josiya',ay:37,mk:true},
+  {n:46,ar:'\u0627\u0644\u0623\u062d\u0642\u0627\u0641',en:'Al-Ahqaf',uz:'Ahqof',ay:35,mk:true},
+  {n:47,ar:'\u0645\u062d\u0645\u062f',en:'Muhammad',uz:'Muhammad',ay:38,mk:false},
+  {n:48,ar:'\u0627\u0644\u0641\u062a\u062d',en:'Al-Fath',uz:'Fath',ay:29,mk:false},
+  {n:49,ar:'\u0627\u0644\u062d\u062c\u0631\u0627\u062a',en:'Al-Hujurat',uz:'Hujurot',ay:18,mk:false},
+  {n:50,ar:'\u0642',en:'Qaf',uz:'Qof',ay:45,mk:true},
+  {n:51,ar:'\u0627\u0644\u0630\u0627\u0631\u064a\u0627\u062a',en:'Adh-Dhariyat',uz:'Zoriyot',ay:60,mk:true},
+  {n:52,ar:'\u0627\u0644\u0637\u0648\u0631',en:'At-Tur',uz:'Tur',ay:49,mk:true},
+  {n:53,ar:'\u0627\u0644\u0646\u062c\u0645',en:'An-Najm',uz:'Najm',ay:62,mk:true},
+  {n:54,ar:'\u0627\u0644\u0642\u0645\u0631',en:'Al-Qamar',uz:'Qamar',ay:55,mk:true},
+  {n:55,ar:'\u0627\u0644\u0631\u062d\u0645\u0646',en:'Ar-Rahman',uz:'Rohman',ay:78,mk:false},
+  {n:56,ar:'\u0627\u0644\u0648\u0627\u0642\u0639\u0629',en:'Al-Waqiah',uz:'Voqia',ay:96,mk:true},
+  {n:57,ar:'\u0627\u0644\u062d\u062f\u064a\u062f',en:'Al-Hadid',uz:'Hadid',ay:29,mk:false},
+  {n:58,ar:'\u0627\u0644\u0645\u062c\u0627\u062f\u0644\u0629',en:'Al-Mujadila',uz:'Mujodala',ay:22,mk:false},
+  {n:59,ar:'\u0627\u0644\u062d\u0634\u0631',en:'Al-Hashr',uz:'Hashr',ay:24,mk:false},
+  {n:60,ar:'\u0627\u0644\u0645\u0645\u062a\u062d\u0646\u0629',en:'Al-Mumtahanah',uz:'Mumtahana',ay:13,mk:false},
+  {n:61,ar:'\u0627\u0644\u0635\u0641',en:'As-Saf',uz:'Saf',ay:14,mk:false},
+  {n:62,ar:'\u0627\u0644\u062c\u0645\u0639\u0629',en:'Al-Jumuah',uz:"Jum'a",ay:11,mk:false},
+  {n:63,ar:'\u0627\u0644\u0645\u0646\u0627\u0641\u0642\u0648\u0646',en:'Al-Munafiqun',uz:'Munofiqun',ay:11,mk:false},
+  {n:64,ar:'\u0627\u0644\u062a\u063a\u0627\u0628\u0646',en:'At-Taghabun',uz:"Tag'obun",ay:18,mk:false},
+  {n:65,ar:'\u0627\u0644\u0637\u0644\u0627\u0642',en:'At-Talaq',uz:'Talaq',ay:12,mk:false},
+  {n:66,ar:'\u0627\u0644\u062a\u062d\u0631\u064a\u0645',en:'At-Tahrim',uz:'Tahrim',ay:12,mk:false},
+  {n:67,ar:'\u0627\u0644\u0645\u0644\u0643',en:'Al-Mulk',uz:'Mulk',ay:30,mk:true},
+  {n:68,ar:'\u0627\u0644\u0642\u0644\u0645',en:'Al-Qalam',uz:'Qalam',ay:52,mk:true},
+  {n:69,ar:'\u0627\u0644\u062d\u0627\u0642\u0629',en:'Al-Haqqah',uz:'Hoqqa',ay:52,mk:true},
+  {n:70,ar:'\u0627\u0644\u0645\u0639\u0627\u0631\u062c',en:'Al-Maarij',uz:"Ma'orij",ay:44,mk:true},
+  {n:71,ar:'\u0646\u0648\u062d',en:'Nuh',uz:'Nuh',ay:28,mk:true},
+  {n:72,ar:'\u0627\u0644\u062c\u0646',en:'Al-Jinn',uz:'Jin',ay:28,mk:true},
+  {n:73,ar:'\u0627\u0644\u0645\u0632\u0645\u0644',en:'Al-Muzzammil',uz:'Muzzammil',ay:20,mk:true},
+  {n:74,ar:'\u0627\u0644\u0645\u062f\u062b\u0631',en:'Al-Muddaththir',uz:'Muddassir',ay:56,mk:true},
+  {n:75,ar:'\u0627\u0644\u0642\u064a\u0627\u0645\u0629',en:'Al-Qiyamah',uz:'Qiyoma',ay:40,mk:true},
+  {n:76,ar:'\u0627\u0644\u0625\u0646\u0633\u0627\u0646',en:'Al-Insan',uz:'Inson',ay:31,mk:false},
+  {n:77,ar:'\u0627\u0644\u0645\u0631\u0633\u0644\u0627\u062a',en:'Al-Mursalat',uz:'Mursalot',ay:50,mk:true},
+  {n:78,ar:'\u0627\u0644\u0646\u0628\u0623',en:"An-Naba",uz:"Naba'",ay:40,mk:true},
+  {n:79,ar:'\u0627\u0644\u0646\u0627\u0632\u0639\u0627\u062a',en:"An-Naziat",uz:"Nozi'ot",ay:46,mk:true},
+  {n:80,ar:'\u0639\u0628\u0633',en:'Abasa',uz:'Abasa',ay:42,mk:true},
+  {n:81,ar:'\u0627\u0644\u062a\u0643\u0648\u064a\u0631',en:'At-Takwir',uz:'Takwir',ay:29,mk:true},
+  {n:82,ar:'\u0627\u0644\u0625\u0646\u0641\u0637\u0627\u0631',en:'Al-Infitar',uz:'Infitor',ay:19,mk:true},
+  {n:83,ar:'\u0627\u0644\u0645\u0637\u0641\u0641\u064a\u0646',en:'Al-Mutaffifin',uz:'Mutaffifin',ay:36,mk:true},
+  {n:84,ar:'\u0627\u0644\u0625\u0646\u0634\u0642\u0627\u0642',en:'Al-Inshiqaq',uz:'Inshiqoq',ay:25,mk:true},
+  {n:85,ar:'\u0627\u0644\u0628\u0631\u0648\u062c',en:'Al-Buruj',uz:'Buruj',ay:22,mk:true},
+  {n:86,ar:'\u0627\u0644\u0637\u0627\u0631\u0642',en:'At-Tariq',uz:'Toriq',ay:17,mk:true},
+  {n:87,ar:'\u0627\u0644\u0623\u0639\u0644\u0649',en:"Al-Ala",uz:"A'lo",ay:19,mk:true},
+  {n:88,ar:'\u0627\u0644\u063a\u0627\u0634\u064a\u0629',en:'Al-Ghashiyah',uz:"G'oshiya",ay:26,mk:true},
+  {n:89,ar:'\u0627\u0644\u0641\u062c\u0631',en:'Al-Fajr',uz:'Fajr',ay:30,mk:true},
+  {n:90,ar:'\u0627\u0644\u0628\u0644\u062f',en:'Al-Balad',uz:'Balad',ay:20,mk:true},
+  {n:91,ar:'\u0627\u0644\u0634\u0645\u0633',en:'Ash-Shams',uz:'Shams',ay:15,mk:true},
+  {n:92,ar:'\u0627\u0644\u0644\u064a\u0644',en:'Al-Layl',uz:'Layl',ay:21,mk:true},
+  {n:93,ar:'\u0627\u0644\u0636\u062d\u0649',en:'Ad-Duhaa',uz:'Duho',ay:11,mk:true},
+  {n:94,ar:'\u0627\u0644\u0634\u0631\u062d',en:'Ash-Sharh',uz:'Sharh',ay:8,mk:true},
+  {n:95,ar:'\u0627\u0644\u062a\u064a\u0646',en:'At-Tin',uz:'Tin',ay:8,mk:true},
+  {n:96,ar:'\u0627\u0644\u0639\u0644\u0642',en:'Al-Alaq',uz:"'Alaq",ay:19,mk:true},
+  {n:97,ar:'\u0627\u0644\u0642\u062f\u0631',en:'Al-Qadr',uz:'Qadr',ay:5,mk:true},
+  {n:98,ar:'\u0627\u0644\u0628\u064a\u0646\u0629',en:'Al-Bayyinah',uz:'Bayyina',ay:8,mk:false},
+  {n:99,ar:'\u0627\u0644\u0632\u0644\u0632\u0644\u0629',en:'Az-Zalzalah',uz:'Zalzala',ay:8,mk:false},
+  {n:100,ar:'\u0627\u0644\u0639\u0627\u062f\u064a\u0627\u062a',en:"Al-Adiyat",uz:"'Odiyot",ay:11,mk:true},
+  {n:101,ar:'\u0627\u0644\u0642\u0627\u0631\u0639\u0629',en:"Al-Qariah",uz:"Qori'a",ay:11,mk:true},
+  {n:102,ar:'\u0627\u0644\u062a\u0643\u0627\u062b\u0631',en:'At-Takathur',uz:'Takosur',ay:8,mk:true},
+  {n:103,ar:'\u0627\u0644\u0639\u0635\u0631',en:'Al-Asr',uz:"'Asr",ay:3,mk:true},
+  {n:104,ar:'\u0627\u0644\u0647\u0645\u0632\u0629',en:'Al-Humazah',uz:'Humaza',ay:9,mk:true},
+  {n:105,ar:'\u0627\u0644\u0641\u064a\u0644',en:'Al-Fil',uz:'Fil',ay:5,mk:true},
+  {n:106,ar:'\u0642\u0631\u064a\u0634',en:'Quraysh',uz:'Quraysh',ay:4,mk:true},
+  {n:107,ar:'\u0627\u0644\u0645\u0627\u0639\u0648\u0646',en:"Al-Maun",uz:"Mo'un",ay:7,mk:true},
+  {n:108,ar:'\u0627\u0644\u0643\u0648\u062b\u0631',en:'Al-Kawthar',uz:'Kavsar',ay:3,mk:true},
+  {n:109,ar:'\u0627\u0644\u0643\u0627\u0641\u0631\u0648\u0646',en:'Al-Kafirun',uz:'Kofirun',ay:6,mk:true},
+  {n:110,ar:'\u0627\u0644\u0646\u0635\u0631',en:'An-Nasr',uz:'Nasr',ay:3,mk:false},
+  {n:111,ar:'\u0627\u0644\u0645\u0633\u062f',en:'Al-Masad',uz:'Masad',ay:5,mk:true},
+  {n:112,ar:'\u0627\u0644\u0625\u062e\u0644\u0627\u0635',en:'Al-Ikhlas',uz:'Ixlos',ay:4,mk:true},
+  {n:113,ar:'\u0627\u0644\u0641\u0644\u0642',en:'Al-Falaq',uz:'Falaq',ay:5,mk:true},
+  {n:114,ar:'\u0627\u0644\u0646\u0627\u0633',en:'An-Nas',uz:'Nos',ay:6,mk:true},
+];
+
+
+// ══ SURAH DATA ══
+const SURAH_DATA={
+  1:{ayahs:[
+    {n:1,ar:"\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650",uz:"Mehribon va rahmli Alloh nomi bilan.",sh:"Shayx Muhammad Sodiq sharhi: Har bir ishni Alloh nomi bilan boshlash musulmonning burchidir.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/1.mp3"},
+    {n:2,ar:"\u0627\u0644\u0652\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0650\u0644\u0651\u064e\u0647\u0650 \u0631\u064e\u0628\u0651\u0650 \u0627\u0644\u0652\u0639\u064e\u0627\u0644\u064e\u0645\u0650\u064a\u0646\u064e",uz:"Hamd olamlar Rabbisi Allohgadir.",sh:"Shayx Muhammad Sodiq sharhi: Shukr va hamd faqat Allohgadir.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/2.mp3"},
+    {n:3,ar:"\u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650",uz:"Mehribon, rahmli.",sh:"Shayx Muhammad Sodiq sharhi: Allohning rahmat sifatlari takrorlanib, cheksiz shafqati ta'kidlanmoqda.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/3.mp3"},
+    {n:4,ar:"\u0645\u064e\u0627\u0644\u0650\u0643\u0650 \u064a\u064e\u0648\u0652\u0645\u0650 \u0627\u0644\u062f\u0651\u0650\u064a\u0646\u0650",uz:"Hisob-kitob kunining egasi.",sh:"Shayx Muhammad Sodiq sharhi: Qiyomat kunida hukm faqat Allohniki bo'ladi.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/4.mp3"},
+    {n:5,ar:"\u0625\u0650\u064a\u0651\u064e\u0627\u0643\u064e \u0646\u064e\u0639\u0652\u0628\u064f\u062f\u064f \u0648\u064e\u0625\u0650\u064a\u0651\u064e\u0627\u0643\u064e \u0646\u064e\u0633\u0652\u062a\u064e\u0639\u0650\u064a\u0646\u064f",uz:"Faqat Senga ibodat qilamiz va faqat Sendan yordam so'raymiz.",sh:"Shayx Muhammad Sodiq sharhi: Bu oyat tavhidning asosi.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/5.mp3"},
+    {n:6,ar:"\u0627\u0647\u0652\u062f\u0650\u0646\u064e\u0627 \u0627\u0644\u0635\u0651\u0650\u0631\u064e\u0627\u0637\u064e \u0627\u0644\u0652\u0645\u064f\u0633\u0652\u062a\u064e\u0642\u0650\u064a\u0645\u064e",uz:"Bizni to'g'ri yo'lga boshlaginki.",sh:"Shayx Muhammad Sodiq sharhi: To'g'ri yo'l — bu Islom yo'li, Qur'on va Sunnat yo'lidir.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6.mp3"},
+    {n:7,ar:"\u0635\u0650\u0631\u064e\u0627\u0637\u064e \u0627\u0644\u0651\u064e\u0630\u0650\u064a\u0646\u064e \u0623\u064e\u0646\u0652\u0639\u064e\u0645\u0652\u062a\u064e \u0639\u064e\u0644\u064e\u064a\u0652\u0647\u0650\u0645\u0652 \u063a\u064e\u064a\u0652\u0631\u0650 \u0627\u0644\u0652\u0645\u064e\u063a\u0652\u0636\u064f\u0648\u0628\u0650 \u0639\u064e\u0644\u064e\u064a\u0652\u0647\u0650\u0645\u0652 \u0648\u064e\u0644\u064e\u0627 \u0627\u0644\u0636\u0651\u064e\u0627\u0644\u0651\u0650\u064a\u0646\u064e",uz:"O'zing ne'mat berganlarning yo'liga. G'azabga uchragan va adashganlarning yo'liga emas.",sh:"Shayx Muhammad Sodiq sharhi: Alloh ne'mat bergan zotlar — payg'ambarlar, siddiqlar, shahidlar va solihlardir.",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/7.mp3"},
+  ]},
+  112:{ayahs:[
+    {n:1,ar:"\u0642\u064f\u0644\u0652 \u0647\u064f\u0648\u064e \u0627\u0644\u0644\u0651\u064e\u0647\u064f \u0623\u064e\u062d\u064e\u062f\u064c",uz:"Ayting: U Alloh yagonadir.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6221.mp3"},
+    {n:2,ar:"\u0627\u0644\u0644\u0651\u064e\u0647\u064f \u0627\u0644\u0635\u0651\u064e\u0645\u064e\u062f\u064f",uz:"Alloh barhayotdir.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6222.mp3"},
+    {n:3,ar:"\u0644\u064e\u0645\u0652 \u064a\u064e\u0644\u0650\u062f\u0652 \u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064f\u0648\u0644\u064e\u062f\u0652",uz:"U tug'magan va tug'ilmagan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6223.mp3"},
+    {n:4,ar:"\u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064e\u0643\u064f\u0646 \u0644\u0651\u064e\u0647\u064f \u0643\u064f\u0641\u064f\u0648\u064b\u0627 \u0623\u064e\u062d\u064e\u062f\u064c",uz:"Va Unga teng bo'lgan hech kim yo'q.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6224.mp3"},
+  ]},
+  113:{ayahs:[
+    {n:1,ar:"\u0642\u064f\u0644\u0652 \u0623\u064e\u0639\u064f\u0648\u0630\u064f \u0628\u0650\u0631\u064e\u0628\u0651\u0650 \u0627\u0644\u0652\u0641\u064e\u0644\u064e\u0642\u0650",uz:"Ayting: Tongning Rabbidan panoh so'rayman.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6225.mp3"},
+    {n:2,ar:"\u0645\u0650\u0646 \u0634\u064e\u0631\u0651\u0650 \u0645\u064e\u0627 \u062e\u064e\u0644\u064e\u0642\u064e",uz:"U yaratgan narsaning yomonligidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6226.mp3"},
+    {n:3,ar:"\u0648\u064e\u0645\u0650\u0646 \u0634\u064e\u0631\u0651\u0650 \u063a\u064e\u0627\u0633\u0650\u0642\u064d \u0625\u0650\u0630\u064e\u0627 \u0648\u064e\u0642\u064e\u0628\u064e",uz:"Qorong'u tushganda uning yomonligidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6227.mp3"},
+    {n:4,ar:"\u0648\u064e\u0645\u0650\u0646 \u0634\u064e\u0631\u0651\u0650 \u0627\u0644\u0646\u0651\u064e\u0641\u0651\u064e\u0627\u062b\u064e\u0627\u062a\u0650 \u0641\u0650\u064a \u0627\u0644\u0652\u0639\u064f\u0642\u064e\u062f\u0650",uz:"Tugunlarga dam soladiganlarning yomonligidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6228.mp3"},
+    {n:5,ar:"\u0648\u064e\u0645\u0650\u0646 \u0634\u064e\u0631\u0651\u0650 \u062d\u064e\u0627\u0633\u0650\u062f\u064d \u0625\u0650\u0630\u064e\u0627 \u062d\u064e\u0633\u064e\u062f\u064e",uz:"Hasad qilganda hasadchining yomonligidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6229.mp3"},
+  ]},
+  114:{ayahs:[
+    {n:1,ar:"\u0642\u064f\u0644\u0652 \u0623\u064e\u0639\u064f\u0648\u0630\u064f \u0628\u0650\u0631\u064e\u0628\u0651\u0650 \u0627\u0644\u0646\u0651\u064e\u0627\u0633\u0650",uz:"Ayting: Odamlarning Rabbidan panoh so'rayman.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6230.mp3"},
+    {n:2,ar:"\u0645\u064e\u0644\u0650\u0643\u0650 \u0627\u0644\u0646\u0651\u064e\u0627\u0633\u0650",uz:"Odamlarning Podshohidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6231.mp3"},
+    {n:3,ar:"\u0625\u0650\u0644\u064e\u0670\u0647\u0650 \u0627\u0644\u0646\u0651\u064e\u0627\u0633\u0650",uz:"Odamlarning Ma'budidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6232.mp3"},
+    {n:4,ar:"\u0645\u0650\u0646 \u0634\u064e\u0631\u0651\u0650 \u0627\u0644\u0652\u0648\u064e\u0633\u0652\u0648\u064e\u0627\u0633\u0650 \u0627\u0644\u0652\u062e\u064e\u0646\u0651\u064e\u0627\u0633\u0650",uz:"Vasvasachi, yashirinuvchining yomonligidan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6233.mp3"},
+    {n:5,ar:"\u0627\u0644\u0651\u064e\u0630\u0650\u064a \u064a\u064f\u0648\u064e\u0633\u0652\u0648\u0650\u0633\u064f \u0641\u0650\u064a \u0635\u064f\u062f\u064f\u0648\u0631\u0650 \u0627\u0644\u0646\u0651\u064e\u0627\u0633\u0650",uz:"U odamlar ko'nglida vasvasa soladi.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6234.mp3"},
+    {n:6,ar:"\u0645\u0650\u0646\u064e \u0627\u0644\u0652\u062c\u0650\u0646\u0651\u064e\u0629\u0650 \u0648\u064e\u0627\u0644\u0646\u0651\u064e\u0627\u0633\u0650",uz:"Jinlardan va odamlardan.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6235.mp3"},
+  ]},
+  108:{ayahs:[
+    {n:1,ar:"\u0625\u0650\u0646\u0651\u064e\u0627 \u0623\u064e\u0639\u0652\u0637\u064e\u064a\u0652\u0646\u064e\u0627\u0643\u064e \u0627\u0644\u0652\u0643\u064e\u0648\u0652\u062b\u064e\u0631\u064e",uz:"Biz senga Kavsarni berdik.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6204.mp3"},
+    {n:2,ar:"\u0641\u064e\u0635\u064e\u0644\u0651\u0650 \u0644\u0650\u0631\u064e\u0628\u0651\u0650\u0643\u064e \u0648\u064e\u0627\u0646\u0652\u062d\u064e\u0631\u0652",uz:"Rabbing uchun namoz o'qi va qurbon so'y.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6205.mp3"},
+    {n:3,ar:"\u0625\u0650\u0646\u0651\u064e \u0634\u064e\u0627\u0646\u0650\u0626\u064e\u0643\u064e \u0647\u064f\u0648\u064e \u0627\u0644\u0652\u0623\u064e\u0628\u0652\u062a\u064e\u0631\u064f",uz:"Sendan nafratlanuvchi o'zi kesilgandir.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6206.mp3"},
+  ]},
+  110:{ayahs:[
+    {n:1,ar:"\u0625\u0650\u0630\u064e\u0627 \u062c\u064e\u0627\u0621\u064e \u0646\u064e\u0635\u0652\u0631\u064f \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0648\u064e\u0627\u0644\u0652\u0641\u064e\u062a\u0652\u062d\u064f",uz:"Allohning yordami va g'alaba kelganda.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6213.mp3"},
+    {n:2,ar:"\u0648\u064e\u0631\u064e\u0623\u064e\u064a\u0652\u062a\u064e \u0627\u0644\u0646\u0651\u064e\u0627\u0633\u064e \u064a\u064e\u062f\u0652\u062e\u064f\u0644\u064f\u0648\u0646\u064e \u0641\u0650\u064a \u062f\u0650\u064a\u0646\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0623\u064e\u0641\u0652\u0648\u064e\u0627\u062c\u064b\u0627",uz:"Va odamlarning Alloh dinga to'p-to'p kirayotganini ko'rsang.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6214.mp3"},
+    {n:3,ar:"\u0641\u064e\u0633\u064e\u0628\u0651\u0650\u062d\u0652 \u0628\u0650\u062d\u064e\u0645\u0652\u062f\u0650 \u0631\u064e\u0628\u0651\u0650\u0643\u064e \u0648\u064e\u0627\u0633\u0652\u062a\u064e\u063a\u0652\u0641\u0650\u0631\u0652\u0647\u064f",uz:"Rabbingni hamd bilan ulug'la va undan mag'firat so'ra. U tavbalarni ko'p qabul qiluvchidir.",sh:"",audio:"https://cdn.islamic.network/quran/audio/128/ar.alafasy/6215.mp3"},
+  ]},
+};
+
+// ══ APP INIT ══
+function enterApp(adminFlag){
+  isAdmin=adminFlag||false;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  const adminBtn=document.getElementById('admin-btn');
+  if(adminBtn) adminBtn.style.display=isAdmin?'flex':'none';
+  allSurahs=SURAH_META;
+  renderSurahList(allSurahs);
+  buildAlphabetPage();buildHarakatPage();buildTajweedPage();
+
+  // Oxirgi o'qilgan joyi tiklash
+  var lastQ=loadProgress('quran');
+  if(lastQ&&lastQ.surah){
+    // Banner ko'rsatish
+    showResumeBanner(lastQ);
+    loadSurah(lastQ.surah);
+    // Ayahga qaytish (biroz kechikish bilan)
+    if(lastQ.ayah&&lastQ.ayah>0){
+      setTimeout(function(){
+        curIdx=lastQ.ayah;
+        if(curSurah&&curSurah.ayahs.length>curIdx)renderSurah();
+      },800);
+    }
+  } else {
+    loadSurah(1);
+  }
+  buildVideosPage();
+}
+
+function showResumeBanner(lastQ){
+  // Sahifaning yuqorisida eslatma
+  var existing=document.getElementById('resume-banner');
+  if(existing)existing.remove();
+  var b=document.createElement('div');
+  b.id='resume-banner';
+  b.style.cssText='position:fixed;bottom:1rem;right:1rem;z-index:500;background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.4);border-radius:1rem;padding:.75rem 1rem;max-width:280px;backdrop-filter:blur(8px);animation:fadeUp .4s ease;box-shadow:0 4px 20px rgba(200,168,75,.1)';
+  b.innerHTML='<div style="font-size:.7rem;color:var(--text-dim);margin-bottom:.25rem">📌 Oxirgi o\'qilgan joy</div>'
+    +'<div style="font-size:.85rem;color:var(--gold);font-weight:700;margin-bottom:.5rem">'+lastQ.surahName+' — '+lastQ.ayahNum+'-oyat</div>'
+    +'<div style="display:flex;gap:.4rem">'
+    +'<button onclick="document.getElementById(\'resume-banner\').remove()" style="flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--text-dim);border-radius:.5rem;padding:.3rem;font-size:.72rem;cursor:pointer">✕ Yopish</button>'
+    +'<button onclick="resumeReading()" style="flex:2;background:linear-gradient(135deg,var(--gold-dim),var(--gold));border:none;color:#0d1117;border-radius:.5rem;padding:.3rem .6rem;font-size:.72rem;font-weight:700;cursor:pointer">▶ Davom ettirish</button>'
+    +'</div>';
+  document.body.appendChild(b);
+  // 8 sekunddan keyin avtomatik yopiladi
+  setTimeout(function(){if(b.parentNode)b.remove();},8000);
+}
+
+function resumeReading(){
+  var lastQ=loadProgress('quran');
+  if(lastQ&&lastQ.surah){
+    loadSurah(lastQ.surah);
+    if(lastQ.ayah&&lastQ.ayah>0){
+      setTimeout(function(){curIdx=lastQ.ayah;if(curSurah&&curSurah.ayahs.length>curIdx)renderSurah();},800);
+    }
+    showPage('quran',document.querySelector('.tab-btn'));
+  }
+  var b=document.getElementById('resume-banner');if(b)b.remove();
+}
+
+// ══ PAGE NAV ══
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  var sb=document.getElementById('sidebar');
+  if(id==='quran'){sb.style.display='';document.querySelector('.layout').style.gridTemplateColumns='270px 1fr';}
+  else{sb.style.display='none';document.querySelector('.layout').style.gridTemplateColumns='1fr';}
+  if(id==='hifz'){setTimeout(hifzInit,100);}
+  setTimeout(function(){
+    document.querySelectorAll('#page-'+id+' .reveal').forEach(function(el,i){
+      setTimeout(function(){el.classList.add('visible');},i*80);
+    });
+  },50);
+}
+
+// ══ SIDEBAR ══
+function renderSurahList(list){
+  document.getElementById('surah-list').innerHTML=list.map(function(s){
+    return '<div class="si '+(curSurah&&curSurah.number===s.n?'active':'')+'" id="si-'+s.n+'" onclick="loadSurah('+s.n+')">'
+      +'<div class="si-num">'+s.n+'</div>'
+      +'<div class="si-info">'
+      +'<div class="si-name">'+s.en+'</div>'
+      +'<div class="si-ar">'+s.ar+'</div>'
+      +'<div class="si-count">'+s.ay+' oyat \xb7 '+(s.mk?'Makka':'Madina')+'</div>'
+      +'</div></div>';
+  }).join('');
+}
+function filterSurahs(){
+  var q=document.getElementById('sb-inp').value.toLowerCase();
+  renderSurahList(allSurahs.filter(function(s){
+    return s.en.toLowerCase().includes(q)||s.ar.includes(q)||s.uz.toLowerCase().includes(q)||String(s.n).includes(q);
+  }));
+}
+
+// ══ LOAD SURAH ══
+// API dan surah ma'lumotlarini yuklash
+var surahCache={};
+function loadSurahFromAPI(num, meta, callback){
+  if(surahCache[num]){callback(surahCache[num]);return;}
+  showLoad("Sura yuklanmoqda...");
+  // alquran.cloud API — arabcha matn + uzbekcha tarjima
+  var arUrl='https://api.alquran.cloud/v1/surah/'+num+'/ar.alafasy';
+  fetch(arUrl).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(arData){
+    if(!arData||!arData.data||!arData.data.ayahs)throw new Error('Bad data');
+    var uzUrl='https://api.alquran.cloud/v1/surah/'+num+'/uz.sodik';
+    fetch(uzUrl).then(function(r2){return r2.json();}).then(function(uzData){
+      var ayahs=arData.data.ayahs.map(function(a,i){
+        return {
+          number:a.numberInSurah,
+          arabic:a.text,
+          uzbek:uzData.data&&uzData.data.ayahs[i]?uzData.data.ayahs[i].text:'',
+          sharh:'',
+          audio:'https://cdn.islamic.network/quran/audio/128/ar.alafasy/'+a.number+'.mp3'
+        };
+      });
+      surahCache[num]=ayahs;
+      hideLoad();
+      callback(ayahs);
+    }).catch(function(){
+      // Uzbekcha tarjima bo'lmasa faqat arabcha
+      var ayahs=arData.data.ayahs.map(function(a){
+        return {
+          number:a.numberInSurah,
+          arabic:a.text,
+          uzbek:'',
+          sharh:'',
+          audio:'https://cdn.islamic.network/quran/audio/128/ar.alafasy/'+a.number+'.mp3'
+        };
+      });
+      surahCache[num]=ayahs;
+      hideLoad();
+      callback(ayahs);
+    });
+  }).catch(function(err){
+    console.warn('API xato:', err);
+    hideLoad();
+    callback(null);
+  });
+}
+
+function loadSurah(num){
+  var meta=null;
+  for(var i=0;i<SURAH_META.length;i++){if(SURAH_META[i].n===num){meta=SURAH_META[i];break;}}
+  if(!meta)return;
+  var data=SURAH_DATA[num];
+  
+  if(data){
+    // Lokal ma'lumot mavjud
+    curSurah={number:num,name:meta.ar,englishName:meta.en,uz:meta.uz,
+      numberOfAyahs:meta.ay,revelationType:meta.mk?'Meccan':'Medinan',
+      ayahs:data.ayahs.map(function(a){return {number:a.n,arabic:a.ar,uzbek:a.uz,sharh:a.sh||'',audio:a.audio||''};}),
+    };
+    curIdx=0;
+    document.querySelectorAll('.si').forEach(function(e){e.classList.remove('active');});
+    var si=document.getElementById('si-'+num);
+    if(si){si.classList.add('active');si.scrollIntoView({block:'nearest'});}
+    if(mobOpen)toggleMob();
+    renderSurah(false);
+  } else if(surahCache[num]){
+    // Cache'da bor
+    curSurah={number:num,name:meta.ar,englishName:meta.en,uz:meta.uz,
+      numberOfAyahs:meta.ay,revelationType:meta.mk?'Meccan':'Medinan',
+      ayahs:surahCache[num]
+    };
+    curIdx=0;
+    document.querySelectorAll('.si').forEach(function(e){e.classList.remove('active');});
+    var si2=document.getElementById('si-'+num);
+    if(si2){si2.classList.add('active');si2.scrollIntoView({block:'nearest'});}
+    if(mobOpen)toggleMob();
+    renderSurah(false);
+  } else {
+    // API dan yuklaymiz — preview ko'rsatamiz
+    curSurah={number:num,name:meta.ar,englishName:meta.en,uz:meta.uz,
+      numberOfAyahs:meta.ay,revelationType:meta.mk?'Meccan':'Medinan',ayahs:[]};
+    curIdx=0;
+    document.querySelectorAll('.si').forEach(function(e){e.classList.remove('active');});
+    var si3=document.getElementById('si-'+num);
+    if(si3){si3.classList.add('active');si3.scrollIntoView({block:'nearest'});}
+    if(mobOpen)toggleMob();
+    // Loading ko'rsatamiz
+    document.getElementById('page-quran').innerHTML=
+      '<div class="suh-card reveal"><div class="suh-ar">'+meta.ar+'</div>'
+      +'<div class="suh-uz">'+meta.en+' — '+meta.uz+'</div>'
+      +'<div class="suh-meta"><span class="badge">📿 '+meta.ay+' oyat</span>'
+      +'<span class="badge">🕌 '+(meta.mk?'Makka':'Madina')+'</span>'
+      +'<span class="badge">#'+num+'</span></div></div>'
+      +'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:3rem;text-align:center;color:var(--text-dim)">'
+      +'<div class="spinner" style="width:32px;height:32px;border-width:3px"></div>'
+      +'<p style="margin-top:1rem">Oyatlar yuklanmoqda...</p></div>';
+    setTimeout(function(){document.querySelectorAll('#page-quran .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('visible');},i*80);});},50);
+    
+    loadSurahFromAPI(num, meta, function(ayahs){
+      if(!ayahs){
+        document.getElementById('page-quran').innerHTML=
+          '<div class="suh-card reveal"><div class="suh-ar">'+meta.ar+'</div>'
+          +'<div class="suh-uz">'+meta.en+'</div>'
+          +'<div class="suh-meta"><span class="badge">📿 '+meta.ay+' oyat</span></div></div>'
+          +'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2rem;text-align:center;color:#e07070">'
+          +'<p style="font-size:1.5rem;margin-bottom:.5rem">📡</p>'
+          +'<p style="margin-bottom:1rem">Internet aloqasi yo\'q yoki server ishlamayapti.</p>'
+          +'<button onclick="loadSurah('+num+')" style="background:var(--gold-dim);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:.75rem;cursor:pointer;font-size:.9rem">🔄 Qayta urinish</button>'
+          +'</div>';
+        return;
+      }
+      curSurah.ayahs=ayahs;
+      curIdx=0;
+      renderSurah(false);
+    });
+  }
+}
+
+// ══ RENDER SURAH ══
+function renderSurah(notLoaded){
+  stopAllWbw();
+  var s=curSurah, ay=s.ayahs[curIdx]||{number:1,arabic:'',uzbek:'',sharh:'',audio:''};
+  var isFatiha1=(s.number===1&&curIdx===0);
+  var showBism=(curIdx===0&&s.number!==1&&s.number!==9);
+
+  // Barcha oyatlar uchun so'z-so'z HTML
+  var arabicHTML;
+  if(isFatiha1){
+    // Fotiha 1-oyati — eski FATIHA1_WORDS bilan ham mos
+    wbwWords=FATIHA1_WORDS.map(function(w){return w.ar;});
+    arabicHTML='<div class="arabic-line sz-'+fontSize+'" id="arabic-line" dir="rtl" style="word-spacing:.4em">'
+      +FATIHA1_WORDS.map(function(w,i){return '<span class="w pending" id="wbw-'+i+'">'+w.ar+'</span>';}).join(' ')
+      +'</div>';
+  } else {
+    arabicHTML=buildWbwArabicHTML(ay.arabic||'',fontSize);
+  }
+
+  var sharhHTML=(ay.sharh&&showSh)
+    ?'<div class="sec sec-sh"><div class="sec-sh-title">📖 Sharh — Shayx Muhammad Sodiq</div><p>'+ay.sharh+'</p></div>'
+    :'';
+  var wbwHint='<div class="wbw-info show">🎵 Audio ijro paytida arabcha so\'zlar real vaqtda yoritiladi</div>';
+
+  if(notLoaded){
+    document.getElementById('page-quran').innerHTML=
+      '<div class="suh-card reveal"><div class="suh-ar">'+s.name+'</div>'
+      +'<div class="suh-uz">'+s.englishName+'</div>'
+      +'<div class="suh-meta"><span class="badge">📿 '+s.numberOfAyahs+' oyat</span>'
+      +'<span class="badge">🕌 '+(s.revelationType==='Meccan'?'Makka':'Madina')+'</span>'
+      +'<span class="badge">#'+s.number+'</span></div></div>'
+      +'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2rem;text-align:center;color:var(--text-dim)">'
+      +'<div style="font-size:2rem;margin-bottom:1rem">📖</div>'
+      +'<p>Bu sura tez orada qo\'shiladi.</p></div>';
+    setTimeout(function(){document.querySelectorAll('#page-quran .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('visible');},i*80);});},50);
+    return;
+  }
+
+  // Progress saqlash
+  saveProgress('quran',{surah:s.number,ayah:curIdx,surahName:s.englishName,ayahNum:ay.number});
+
+  document.getElementById('page-quran').innerHTML=
+    '<div class="suh-card reveal">'
+    +'<div class="suh-ar">'+s.name+'</div>'
+    +'<div class="suh-uz">'+s.englishName+' — '+s.uz+'</div>'
+    +'<div class="suh-meta">'
+    +'<span class="badge">📿 '+s.numberOfAyahs+' oyat</span>'
+    +'<span class="badge">🕌 '+(s.revelationType==='Meccan'?'Makka':'Madina')+'</span>'
+    +'<span class="badge">#'+s.number+'</span>'
+    +'</div></div>'
+    +'<div class="ctrl-bar reveal">'
+    +'<div class="font-grp">'
+    +'<button class="cb '+(fontSize==='small'?'active':'')+'" onclick="setFont(\'small\')">A</button>'
+    +'<button class="cb '+(fontSize==='normal'?'active':'')+'" onclick="setFont(\'normal\')">A+</button>'
+    +'<button class="cb '+(fontSize==='large'?'active':'')+'" onclick="setFont(\'large\')">A++</button>'
+    +'</div>'
+    +'<button class="cb '+(showSh?'active':'')+'" onclick="toggleSharh()">'+(showSh?'📝 Sharhni yashirish':'📝 Sharhni ko\'rsatish')+'</button>'
+    +'</div>'
+    +'<div class="ayah-card reveal">'
+    +(showBism?'<div class="bismillah">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</div>':'')
+    +wbwHint+arabicHTML
+    +'<div style="text-align:center"><div class="ayah-num-badge">'+ay.number+'</div></div>'
+    +'<div class="sec sec-uz"><p>'+(ay.uzbek||'')+'</p></div>'
+    +sharhHTML
+    +'</div>'
+    +'<div class="player-card reveal">'
+    +'<div class="player-inner">'
+    +'<button class="play-btn" id="play-btn" onclick="togglePlay()">▶</button>'
+    +'<div class="pinfo">'
+    +'<div class="plabel" id="plabel">Mishary Rashed al-Afasy</div>'
+    +'<div class="pbar-wrap" onclick="seekAud(event)"><div class="pbar" id="pbar"></div></div>'
+    +'<div class="ptime" id="ptime">0:00 / 0:00</div>'
+    +'</div></div></div>'
+    +'<div class="nav-card reveal">'
+    +'<button class="nav-btn" onclick="prevAyah()" '+(s.number===1&&curIdx===0?'disabled':'')+'>← Oldingi</button>'
+    +'<select class="ayah-sel" onchange="goTo(this.value)">'
+    +s.ayahs.map(function(a,i){return '<option value="'+i+'"'+(i===curIdx?' selected':'')+'>Oyat '+a.number+'</option>';}).join('')
+    +'</select>'
+    +'<button class="nav-btn" onclick="nextAyah()" '+(curIdx===s.ayahs.length-1?'disabled':'')+'>Keyingi →</button>'
+    +'</div>';
+
+  document.getElementById('page-quran').scrollTop=0;
+  setTimeout(function(){document.querySelectorAll('#page-quran .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('visible');},i*80);});},50);
+  setupAud(ay.audio||'');
+  if(ay.audio)fabSetTrack(s.englishName,ay.number);
+}
+
+// ══ AUDIO + FAB PLAYER ══
+var aud=document.getElementById('aud');
+var FAB_VISIBLE=false, POPUP_OPEN=false;
+
+function ft(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),sc=Math.floor(s%60);return m+':'+sc.toString().padStart(2,'0');}
+
+function setupAud(url){
+  aud.pause();
+  if(url){aud.src=url;}else{aud.removeAttribute('src');}
+  isPlaying=false;
+  stopAllWbw();
+  fabUpdateIcon();
+}
+function togglePlay(){gpTogglePlay();}
+
+// ── FAB Controls ──
+function gpTogglePlay(){
+  if(!aud.src||aud.src===window.location.href)return;
+  if(aud.paused){aud.play().catch(function(){});}else{aud.pause();}
+}
+function gpPrev(){prevAyah();}
+function gpNext(){
+  nextAyah();
+  // auto-close popup after action if user on different tab
+  if(POPUP_OPEN)setTimeout(fabClosePopup,600);
+}
+function apSeek(e){
+  if(!aud.duration)return;
+  var r=e.currentTarget.getBoundingClientRect();
+  aud.currentTime=(e.clientX-r.left)/r.width*aud.duration;
+}
+
+function fabShow(){
+  if(!FAB_VISIBLE){
+    FAB_VISIBLE=true;
+    var fab=document.getElementById('audio-fab');
+    if(fab)fab.classList.add('show');
+  }
+}
+function fabUpdateIcon(){
+  var playing=!aud.paused&&!aud.ended;
+  var fab=document.getElementById('audio-fab');
+  var fi=document.getElementById('fab-icon');
+  var apb=document.getElementById('ap-play-btn');
+  var inlineBtn=document.getElementById('play-btn');
+  var playIcon='&#9654;', pauseIcon='&#9646;&#9646;';
+  if(fi)fi.innerHTML=playing?pauseIcon:playIcon;
+  if(apb)apb.innerHTML=playing?pauseIcon:playIcon;
+  if(inlineBtn)inlineBtn.innerHTML=playing?pauseIcon:playIcon;
+  if(fab){
+    fab.classList.toggle('playing',playing);
+  }
+}
+function fabSetTrack(surahName,ayahNum){
+  var t=surahName+' — '+ayahNum+'-oyat';
+  var n=document.getElementById('ap-name');
+  if(n)n.textContent=t;
+}
+function fabTogglePopup(){
+  if(POPUP_OPEN){fabClosePopup();}else{fabOpenPopup();}
+}
+function fabOpenPopup(){
+  POPUP_OPEN=true;
+  var p=document.getElementById('audio-popup');
+  if(p)p.classList.add('open');
+  // Close popup if user clicks outside
+  setTimeout(function(){
+    document.addEventListener('click',fabOutsideClick);
+  },10);
+}
+function fabClosePopup(){
+  POPUP_OPEN=false;
+  var p=document.getElementById('audio-popup');
+  if(p)p.classList.remove('open');
+  document.removeEventListener('click',fabOutsideClick);
+}
+function fabOutsideClick(e){
+  var fab=document.getElementById('audio-fab');
+  var popup=document.getElementById('audio-popup');
+  if(fab&&popup&&!fab.contains(e.target)&&!popup.contains(e.target)){
+    fabClosePopup();
+  }
+}
+
+// Update FAB progress ring
+function fabUpdateRing(frac){
+  var circ=document.getElementById('fab-prog-circle');
+  if(!circ)return;
+  var circumference=163.4;
+  var dash=Math.round(frac*circumference);
+  circ.setAttribute('stroke-dasharray',dash+' '+(circumference-dash));
+}
+
+aud.addEventListener('play',function(){
+  isPlaying=true;fabUpdateIcon();fabShow();
+  var l=document.getElementById('plabel');if(l)l.textContent='Ijro qilinmoqda...';
+  var s=document.getElementById('ap-sub');if(s)s.textContent='Ijro qilinmoqda...';
+});
+aud.addEventListener('pause',function(){
+  isPlaying=false;fabUpdateIcon();
+  var l=document.getElementById('plabel');if(l)l.textContent='Mishary Rashed al-Afasy';
+  var s=document.getElementById('ap-sub');if(s)s.textContent='Mishary Rashed al-Afasy';
+});
+aud.addEventListener('ended',function(){
+  isPlaying=false;fabUpdateIcon();stopAllWbw();
+  if(curSurah&&curIdx<curSurah.ayahs.length-1){curIdx++;renderSurah();setTimeout(function(){aud.play().catch(function(){});},300);}
+});
+aud.addEventListener('timeupdate',function(){
+  if(!aud.duration)return;
+  var frac=aud.currentTime/aud.duration;
+  var p=frac*100;
+  // Inline player bar
+  var b=document.getElementById('pbar');if(b)b.style.width=p+'%';
+  var t=document.getElementById('ptime');if(t)t.textContent=ft(aud.currentTime)+' / '+ft(aud.duration);
+  // Popup bars
+  var sf=document.getElementById('ap-seekfill');if(sf)sf.style.width=p+'%';
+  var ac=document.getElementById('ap-cur');if(ac)ac.textContent=ft(aud.currentTime);
+  var ad=document.getElementById('ap-dur');if(ad)ad.textContent=ft(aud.duration);
+  // FAB ring
+  fabUpdateRing(frac);
+  // Word sync
+  syncAllWbw(aud.currentTime,aud.duration);
+});
+function seekAud(e){if(!aud.duration)return;var r=e.currentTarget.getBoundingClientRect();aud.currentTime=(e.clientX-r.left)/r.width*aud.duration;}
+
+// Auto-close popup when switching tabs
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){if(POPUP_OPEN)fabClosePopup();});
+});
+
+// ══ VIDEO MODAL ══
+// Extracted video IDs from the playlist (first 20 known)
+// YouTube qidiruv — seriya turiga qarab aniq qidiruv so'zi
+var VIDEO_IDS={};
+function getYtUrl(n){
+  var v=VIDEOS[n-1];
+  if(!v) return 'https://www.youtube.com/@MuallimiSoniy';
+  var q;
+  if(v.s==='arab'){
+    q="ARAB TILIDA YOZISH O'QISH "+v.sn+"-DARS MUALLIMI SONIY";
+  } else if(v.s==='tajvid'){
+    q="TAJVID DARSLARI "+v.sn+"-DARS MUALLIMI SONIY";
+  } else {
+    q="QURON O'QISHNI O'RGANISH "+v.sn+"-DARS MUALLIMI SONIY";
+  }
+  return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q);
+}
+function openVideo(n,title){
+  saveProgress('video',{n:n,title:title});
+  var modal=document.getElementById('video-modal');
+  var iframe=document.getElementById('vm-iframe');
+  var vmTitle=document.getElementById('vm-title');
+  if(!modal||!iframe||!vmTitle)return;
+  vmTitle.textContent=n+'-dars: '+title;
+  
+  var src;
+  if(VIDEO_IDS[n]){
+    // Use direct video ID — works on any domain, no Error 153
+    src='https://www.youtube-nocookie.com/embed/'+VIDEO_IDS[n]+'?autoplay=1&rel=0&modestbranding=1&fs=1&iv_load_policy=3';
+  } else {
+    // Fallback: try playlist with index (may work for some videos)
+    src='https://www.youtube-nocookie.com/embed?listType=playlist&list='+PL+'&index='+(n-1)+'&autoplay=1&rel=0&modestbranding=1&fs=1';
+  }
+  
+  // Handle load errors — show YouTube link button
+  iframe.onerror=null;
+  iframe.src=src;
+  
+  // Check for Error 153 by monitoring iframe after load  
+  iframe.onload=function(){
+    // iframe loaded OK — remove any error UI
+    var errDiv=document.getElementById('vm-err');
+    if(errDiv)errDiv.style.display='none';
+  };
+  
+  modal.style.display='flex';
+  document.body.style.overflow='hidden';
+  document.addEventListener('keydown',vmEscHandler);
+  
+  // Store current video for fallback button
+  modal._vidN=n; modal._vidTitle=title;
+}
+function closeVideoModal(){
+  var modal=document.getElementById('video-modal');
+  var iframe=document.getElementById('vm-iframe');
+  if(iframe){iframe.src='';iframe.onload=null;}
+  if(modal)modal.style.display='none';
+  document.body.style.overflow='';
+  document.removeEventListener('keydown',vmEscHandler);
+  // Hide error UI
+  var err=document.getElementById('vm-err');
+  if(err)err.classList.add('vm-err-hidden');
+}
+function vmEscHandler(e){if(e.key==='Escape')closeVideoModal();}
+
+// Detect Error 153 / playback blocked by checking iframe postMessage
+window.addEventListener('message',function(e){
+  if(!e.data||typeof e.data!=='object')return;
+  // YouTube sends {event:'infoDelivery',info:{playerState:-1}} on error
+  if(e.data.event==='infoDelivery'&&e.data.info){
+    if(e.data.info.playerState===-1||e.data.info.error){
+      showVideoErr();
+    }
+  }
+  // YouTube IFrame API error event
+  if(e.data.event==='onError'){showVideoErr();}
+});
+
+function showVideoErr(){
+  var err=document.getElementById('vm-err');
+  var modal=document.getElementById('video-modal');
+  if(!err||!modal)return;
+  // Set YouTube link
+  var link=document.getElementById('vm-yt-link');
+  if(link&&modal._vidN){
+    var ytUrl='https://www.youtube.com/playlist?list='+PL+'&index='+modal._vidN;
+    link.href=ytUrl;
+    link.textContent='▶ YouTube’da koʼrish';
+  }
+  err.classList.remove('vm-err-hidden');
+}
+
+// ══ NAV ══
+function prevAyah(){if(curIdx>0){curIdx--;renderSurah();}else if(curSurah&&curSurah.number>1){loadSurah(curSurah.number-1);}}
+function nextAyah(){if(curSurah&&curIdx<curSurah.ayahs.length-1){curIdx++;renderSurah();}}
+function goTo(i){curIdx=parseInt(i);renderSurah();}
+function setFont(s){fontSize=s;renderSurah();}
+function toggleSharh(){showSh=!showSh;var b=document.getElementById('sharh-btn');if(b)b.classList.toggle('active',showSh);renderSurah();}
+function toggleMob(){mobOpen=!mobOpen;document.getElementById('sidebar').classList.toggle('open',mobOpen);}
+function showLoad(t){document.getElementById('load-txt').textContent=t||'Yuklanmoqda...';document.getElementById('load-ov').style.display='flex';}
+function hideLoad(){document.getElementById('load-ov').style.display='none';}
+
+// ══ ALPHABET ══
+var LETTERS=[
+  {ar:'\u0627',name:'Alif',trans:'a/\u0101',makhraj:'Halq',type:'qamari',forms:['\u0627','\u2013','\u2013','\u2013'],examples:[{ar:'\u0623\u064e\u0628',uz:'ota'},{ar:'\u0623\u064f\u0645\u0651',uz:'ona'}],desc:"Arab alifbosining birinchi harfi. Uzun '\u0101' tovushini bildiradi."},
+  {ar:'\u0628',name:'Ba',trans:'b',makhraj:'Lablar',type:'qamari',forms:['\u0628','\u0628\u0640','\u0640\u0628\u0640','\u0640\u0628'],examples:[{ar:'\u0628\u064e\u064a\u0652\u062a',uz:'uy'},{ar:'\u0643\u0650\u062a\u064e\u0627\u0628',uz:'kitob'}],desc:'"B" tovushi. Ostida bir nuqta.'},
+  {ar:'\u062a',name:'Ta',trans:'t',makhraj:'Tish-til',type:'shamsi',forms:['\u062a','\u062a\u0640','\u0640\u062a\u0640','\u0640\u062a'],examples:[{ar:'\u062a\u064e\u0645\u0652\u0631',uz:'xurmo'}],desc:'"T" tovushi. Ustida ikki nuqta.'},
+  {ar:'\u062b',name:'Tha',trans:'th',makhraj:'Tish',type:'shamsi',forms:['\u062b','\u062b\u0640','\u0640\u062b\u0640','\u0640\u062b'],examples:[{ar:'\u062b\u064e\u0644\u064e\u0627\u062b\u064e\u0629',uz:'uch'}],desc:'Inglizcha "th" (think). Ustida uch nuqta.'},
+  {ar:'\u062c',name:'Jim',trans:'j',makhraj:"Til o'rta",type:'qamari',forms:['\u062c','\u062c\u0640','\u0640\u062c\u0640','\u0640\u062c'],examples:[{ar:'\u062c\u064e\u0646\u0651\u064e\u0629',uz:'jannat'}],desc:'"J" tovushi. Ichida bir nuqta.'},
+  {ar:'\u062d',name:'Ha',trans:'\u1e25',makhraj:"Halq o'rta",type:'qamari',forms:['\u062d','\u062d\u0640','\u0640\u062d\u0640','\u0640\u062d'],examples:[{ar:'\u062d\u064e\u0645\u0652\u062f',uz:'hamd'}],desc:"Kuchli tomoq 'H' tovushi."},
+  {ar:'\u062e',name:'Kha',trans:'kh',makhraj:'Halq yuqori',type:'qamari',forms:['\u062e','\u062e\u0640','\u0640\u062e\u0640','\u0640\u062e'],examples:[{ar:'\u062e\u064e\u064a\u0652\u0631',uz:'xayr'}],desc:"O'zbek 'X' tovushi."},
+  {ar:'\u062f',name:'Dal',trans:'d',makhraj:'Tish-til',type:'shamsi',forms:['\u062f','\u2013','\u2013','\u0640\u062f'],examples:[{ar:'\u062f\u0650\u064a\u0646',uz:'din'}],desc:'"D" tovushi. Chap tomondan biriktirilmaydi.'},
+  {ar:'\u0630',name:'Dhal',trans:'dh',makhraj:'Tish',type:'shamsi',forms:['\u0630','\u2013','\u2013','\u0640\u0630'],examples:[{ar:'\u0630\u0650\u0643\u0652\u0631',uz:'zikr'}],desc:'Inglizcha "th" (this). Chap tomondan biriktirilmaydi.'},
+  {ar:'\u0631',name:'Ra',trans:'r',makhraj:'Til uchi',type:'shamsi',forms:['\u0631','\u2013','\u2013','\u0640\u0631'],examples:[{ar:'\u0631\u064e\u0628\u0651',uz:'Rabb'}],desc:"Rulon 'R' tovushi."},
+  {ar:'\u0632',name:'Zay',trans:'z',makhraj:'Tish',type:'shamsi',forms:['\u0632','\u2013','\u2013','\u0640\u0632'],examples:[{ar:'\u0632\u064e\u0643\u064e\u0627\u0629',uz:'zakot'}],desc:'"Z" tovushi. Ustida bir nuqta.'},
+  {ar:'\u0633',name:'Sin',trans:'s',makhraj:'Tish-til',type:'shamsi',forms:['\u0633','\u0633\u0640','\u0640\u0633\u0640','\u0640\u0633'],examples:[{ar:'\u0633\u064e\u0644\u064e\u0627\u0645',uz:'salom'}],desc:"Yumshoq 'S' tovushi."},
+  {ar:'\u0634',name:'Shin',trans:'sh',makhraj:"Til o'rta",type:'shamsi',forms:['\u0634','\u0634\u0640','\u0640\u0634\u0640','\u0640\u0634'],examples:[{ar:'\u0634\u064e\u0645\u0652\u0633',uz:'quyosh'}],desc:'"Sh" tovushi. Ustida uch nuqta.'},
+  {ar:'\u0635',name:'Sad',trans:'\u1e63',makhraj:'Tish-lab',type:'shamsi',forms:['\u0635','\u0635\u0640','\u0640\u0635\u0640','\u0640\u0635'],examples:[{ar:'\u0635\u064e\u0644\u064e\u0627\u0629',uz:'namoz'}],desc:"Qalin 'S' tovushi."},
+  {ar:'\u0636',name:'Dad',trans:'\u1e0d',makhraj:'Tish yon',type:'shamsi',forms:['\u0636','\u0636\u0640','\u0640\u0636\u0640','\u0640\u0636'],examples:[{ar:'\u0631\u064e\u0645\u064e\u0636\u064e\u0627\u0646',uz:'Ramazon'}],desc:"Qalin 'D' tovushi. Arab tiliga xos."},
+  {ar:'\u0637',name:'Ta',trans:'\u1e6d',makhraj:'Tish-til',type:'shamsi',forms:['\u0637','\u0637\u0640','\u0640\u0637\u0640','\u0640\u0637'],examples:[{ar:'\u0637\u064e\u0631\u0650\u064a\u0642',uz:"yo'l"}],desc:"Qalin 'T' tovushi."},
+  {ar:'\u0638',name:'Dha',trans:'\u1e93',makhraj:'Tish',type:'shamsi',forms:['\u0638','\u0638\u0640','\u0640\u0638\u0640','\u0640\u0638'],examples:[{ar:'\u0638\u064f\u0644\u0652\u0645',uz:'zulm'}],desc:"Qalin 'DH' tovushi."},
+  {ar:'\u0639',name:'Ayn',trans:'\u02bf',makhraj:'Halq chuqur',type:'qamari',forms:['\u0639','\u0639\u0640','\u0640\u0639\u0640','\u0640\u0639'],examples:[{ar:'\u0639\u0650\u0644\u0652\u0645',uz:'ilm'}],desc:'Arab tiliga xos tomoq tovushi.'},
+  {ar:'\u063a',name:'Ghayn',trans:'gh',makhraj:'Halq yuqori',type:'qamari',forms:['\u063a','\u063a\u0640','\u0640\u063a\u0640','\u0640\u063a'],examples:[{ar:'\u063a\u064e\u064a\u0652\u0628',uz:"g'ayb"}],desc:"\"G'\" tovushi, fransuzcha R ga o'xshash."},
+  {ar:'\u0641',name:'Fa',trans:'f',makhraj:'Lab-tish',type:'qamari',forms:['\u0641','\u0641\u0640','\u0640\u0641\u0640','\u0640\u0641'],examples:[{ar:'\u0641\u064e\u062a\u0652\u062d',uz:'fath'}],desc:'"F" tovushi.'},
+  {ar:'\u0642',name:'Qaf',trans:'q',makhraj:'Til orqa-tomoq',type:'qamari',forms:['\u0642','\u0642\u0640','\u0640\u0642\u0640','\u0640\u0642'],examples:[{ar:'\u0642\u064f\u0631\u0652\u0622\u0646',uz:"Qur'on"}],desc:'"Q" tovushi. Ustida ikki nuqta.'},
+  {ar:'\u0643',name:'Kaf',trans:'k',makhraj:"Til o'rta",type:'qamari',forms:['\u0643','\u0643\u0640','\u0640\u0643\u0640','\u0640\u0643'],examples:[{ar:'\u0643\u0650\u062a\u064e\u0627\u0628',uz:'kitob'}],desc:'"K" tovushi.'},
+  {ar:'\u0644',name:'Lam',trans:'l',makhraj:'Til uchi yon',type:'shamsi',forms:['\u0644','\u0644\u0640','\u0640\u0644\u0640','\u0640\u0644'],examples:[{ar:'\u0644\u064e\u064a\u0652\u0644',uz:'tun'}],desc:'"L" tovushi. Shamiy harf.'},
+  {ar:'\u0645',name:'Mim',trans:'m',makhraj:'Lablar',type:'qamari',forms:['\u0645','\u0645\u0640','\u0640\u0645\u0640','\u0640\u0645'],examples:[{ar:'\u0645\u064e\u0627\u0621',uz:'suv'}],desc:'"M" tovushi.'},
+  {ar:'\u0646',name:'Nun',trans:'n',makhraj:'Tish-til',type:'shamsi',forms:['\u0646','\u0646\u0640','\u0640\u0646\u0640','\u0640\u0646'],examples:[{ar:'\u0646\u064f\u0648\u0631',uz:'nur'}],desc:'"N" tovushi. Ichida bir nuqta.'},
+  {ar:'\u0647',name:'Ha',trans:'h',makhraj:'Halq chuqur',type:'qamari',forms:['\u0647','\u0647\u0640','\u0640\u0647\u0640','\u0640\u0647'],examples:[{ar:'\u0647\u064f\u062f\u064a',uz:'hidoyat'}],desc:"Yumshoq 'H' tovushi."},
+  {ar:'\u0648',name:'Waw',trans:'w/\u016b',makhraj:'Lablar',type:'qamari',forms:['\u0648','\u2013','\u2013','\u0640\u0648'],examples:[{ar:'\u0648\u064e\u0644\u064e\u062f',uz:'bola'}],desc:'"V/W" yoki uzun "\u016a".'},
+  {ar:'\u064a',name:'Ya',trans:'y/\u012b',makhraj:"Til o'rta",type:'shamsi',forms:['\u064a','\u064a\u0640','\u0640\u064a\u0640','\u0640\u064a'],examples:[{ar:'\u064a\u064e\u0648\u0652\u0645',uz:'kun'}],desc:'"Y" yoki uzun "\u012a". Ostida ikki nuqta.'},
+];
+var alphTab='all';
+function setAlphTab(t,btn){alphTab=t;document.querySelectorAll('.alph-tab').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');buildAlphabetPage();}
+function buildAlphabetPage(){
+  var filtered=alphTab==='all'?LETTERS:alphTab==='shamsi'?LETTERS.filter(function(l){return l.type==='shamsi';}):LETTERS.filter(function(l){return l.type==='qamari';});
+  var g=document.getElementById('letter-grid');if(!g)return;
+  g.innerHTML=filtered.map(function(l){
+    var idx=LETTERS.indexOf(l);
+    return '<div class="letter-card" onclick="showLetterDetail('+idx+')" id="lc-'+idx+'">'
+      +'<div class="lc-ar">'+l.ar+'</div><div class="lc-name">'+l.name+'</div>'
+      +'<div class="lc-trans">['+l.trans+']</div>'
+      +'<div class="lc-forms">'+l.forms.filter(function(f){return f!=='\u2013';}).map(function(f){return '<span class="lc-form">'+f+'</span>';}).join('')+'</div>'
+      +'</div>';
+  }).join('');
+}
+function showLetterDetail(idx){
+  var l=LETTERS[idx],det=document.getElementById('letter-detail');
+  var fn=['Alohida','Boshida',"O'rtasida",'Oxirida'];
+  det.innerHTML='<div class="ld-header"><div class="ld-big">'+l.ar+'</div><div class="ld-info">'
+    +'<h3>'+l.name+' ['+l.trans+']</h3><p>Makhraj: '+l.makhraj+' \xb7 '+(l.type==='shamsi'?'\ud83c\udf1e Shamsiy':'\ud83c\udf19 Qamariy')+'</p>'
+    +'<p style="margin-top:.4rem;font-size:.85rem;color:var(--text-dim)">'+l.desc+'</p></div></div>'
+    +'<div class="ld-forms-row">'+l.forms.map(function(f,i){return '<div class="ld-form-item"><div class="ld-form-ar">'+f+'</div><div class="ld-form-name">'+fn[i]+'</div></div>';}).join('')+'</div>'
+    +(l.examples.length?'<div class="ld-examples"><h4>Misol so\'zlar</h4><div class="example-list">'+l.examples.map(function(e){return '<div class="ex-word">'+e.ar+'<span>'+e.uz+'</span></div>';}).join('')+'</div></div>':'');
+  det.classList.add('show');det.scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.querySelectorAll('.letter-card').forEach(function(c){c.classList.remove('active');});
+  var lc=document.getElementById('lc-'+idx);if(lc)lc.classList.add('active');
+}
+
+// ══ HARAKAT ══
+function buildHarakatPage(){
+  var hg=document.getElementById('harakat-grid');
+  if(hg)hg.innerHTML=[
+    {ar:'\u0628\u064e',name:'Fatha',desc:'Qisqa "a" tovushi.'},
+    {ar:'\u0628\u0650',name:'Kasra',desc:'Qisqa "i" tovushi.'},
+    {ar:'\u0628\u064f',name:'Damma',desc:'Qisqa "u" tovushi.'},
+    {ar:'\u0628\u0652',name:'Sukun',desc:'Tovushsiz harf.'},
+    {ar:'\u0628\u0651',name:'Tashdid',desc:'Harfni ikkilantiradi.'},
+    {ar:'\u0628\u0670',name:'Dagger Alif',desc:"Uzun '\u0101' tovushi."},
+  ].map(function(h){return '<div class="hk-card"><div class="hk-ar">'+h.ar+'</div><div class="hk-name">'+h.name+'</div><div class="hk-desc">'+h.desc+'</div></div>';}).join('');
+
+  var tg=document.getElementById('tanwin-grid');
+  if(tg)tg.innerHTML=[
+    {ar:'\u0628\u064b',name:'Tanwin Fath',desc:'"-an" tovushi.'},
+    {ar:'\u0628\u064d',name:'Tanwin Kasr',desc:'"-in" tovushi.'},
+    {ar:'\u0628\u064c',name:'Tanwin Damm',desc:'"-un" tovushi.'},
+  ].map(function(h){return '<div class="hk-card"><div class="hk-ar">'+h.ar+'</div><div class="hk-name">'+h.name+'</div><div class="hk-desc">'+h.desc+'</div></div>';}).join('');
+
+  var vr=document.getElementById('vowels-rules');
+  if(vr)vr.innerHTML=[
+    {icon:'\ud83d\udccf',title:'Qisqa unlilar',text:'Fatha (a), Kasra (i), Damma (u) — 1 harakat.'},
+    {icon:'\ud83d\udcd0',title:'Uzun unlilar',text:'Alif (\u0101), Ya (\u012b), Vav (\u016b) — 2 harakat.'},
+    {icon:'\ud83d\udd04',title:'Madd',text:'2-6 harakat uzunligida cho\'zish.'},
+  ].map(function(r){return '<div class="rule-item"><div class="rule-icon">'+r.icon+'</div><div class="rule-text"><h4>'+r.title+'</h4><p>'+r.text+'</p></div></div>';}).join('');
+}
+
+// ══ TAJWEED ══
+function buildTajweedPage(){
+  var tr=document.getElementById('tajweed-rules');
+  if(tr)tr.innerHTML=[
+    {icon:'\ud83d\udd35',title:"Izhor",text:'Nun sokin yoki Tanvindan keyin tomoq harflari kelsa, N aniq o\'qiladi.',ar:'\u0645\u0650\u0646\u0652 \u0639\u0650\u0644\u0652\u0645\u064d'},
+    {icon:'\ud83d\udfe2',title:"Idgom",text:'N keyingi harfga qo\'shiladi.',ar:'\u0645\u0650\u0646\u0652 \u064a\u064e\u0648\u0652\u0645\u064d'},
+    {icon:'\ud83d\udfe1',title:"Iqlab",text:"Ba kelsa, N M ga aylanadi.",ar:'\u0645\u0650\u0646\u0652 \u0628\u064e\u0639\u0652\u062f\u0650'},
+    {icon:'\ud83d\udd34',title:'Ixfa',text:'N yarim yashirin o\'qiladi.',ar:'\u0645\u064e\u0646\u0652 \u0643\u064e\u0641\u064e\u0631\u064e'},
+    {icon:'\u2728',title:'Qalqala',text:'Tebranib o\'qiladi.',ar:'\u064a\u064e\u0642\u0652\u0637\u064e\u0639\u064f'},
+    {icon:'\ud83d\udccf',title:'Madd Tabii',text:'2 harakat cho\'ziladi.',ar:'\u0642\u064e\u0627\u0644\u064e'},
+    {icon:'\ud83c\udf1f',title:'Lom Shamsiy',text:"AL da Lom shamiy harfdan oldin o'qilmaydi.",ar:'\u0627\u0644\u0634\u0651\u064e\u0645\u0652\u0633'},
+    {icon:'\ud83c\udf19',title:'Lom Qamariy',text:"AL da Lom qamariy harfdan oldin aniq o'qiladi.",ar:'\u0627\u0644\u0652\u0642\u064e\u0645\u064e\u0631'},
+  ].map(function(r){return '<div class="rule-item"><div class="rule-icon">'+r.icon+'</div><div class="rule-text"><h4>'+r.title+'</h4><p>'+r.text+'</p><div class="ar">'+r.ar+'</div></div></div>';}).join('');
+
+  var ir=document.getElementById('idgham-rules');
+  if(ir)ir.innerHTML=[
+    {icon:'\ud83d\udd0a',title:'Idgom bigunnah',text:'(ي ن م و) — N gunna bilan qo\'shiladi.',ar:'\u0645\u0650\u0646\u0652 \u0648\u064e\u0631\u064e\u0627\u0621'},
+    {icon:'\ud83d\udd07',title:'Idgom bilagunnah',text:'(ل ر) — N gunnasiz qo\'shiladi.',ar:'\u0645\u0650\u0646\u0652 \u0631\u064e\u0628\u0651\u0650'},
+  ].map(function(r){return '<div class="rule-item"><div class="rule-icon">'+r.icon+'</div><div class="rule-text"><h4>'+r.title+'</h4><p>'+r.text+'</p><div class="ar">'+r.ar+'</div></div></div>';}).join('');
+
+  var mr=document.getElementById('makhraj-rules');
+  if(mr)mr.innerHTML=[
+    {icon:'\ud83d\udc44',title:'Lab harflari',text:'(ب م و ف) — lablardan chiqadi.'},
+    {icon:'\ud83d\udc45',title:'Til uchi harflari',text:'(ن ل ر ت ث د ذ ز س ص ظ ط ض)'},
+    {icon:'\ud83c\udf2c',title:'Tomoq harflari',text:"(ء ه ع ح غ خ) — tomoq'ning uch qismidan."},
+    {icon:'\ud83d\udd21',title:'Til orqa',text:'(ق ك) — til orqasidan.'},
+    {icon:'\ud83d\udc43',title:'Burun',text:'Mim va Nun — burundan chiqadigan gunna.'},
+  ].map(function(r){return '<div class="rule-item"><div class="rule-icon">'+r.icon+'</div><div class="rule-text"><h4>'+r.title+'</h4><p>'+r.text+'</p></div></div>';}).join('');
+}
+
+// ══ VIDEOS ══
+var PL='PLgrueUfOSy6vhif1bckhApDhZoGMkOPYx';
+
+// Barcha 132 video — to'g'ri nomlar va qidiruv so'zlari bilan
+var VIDEOS=[
+  {n:1,s:'arab',sn:1,title:"ARAB TILIDA YOZISH VA O'QISH 1-DARS / MUALLIMI SONIY 1-DARS UZBEK TILIDA (JUDA OSON)"},
+  {n:2,s:'arab',sn:2,title:"ARAB TILIDA YOZISH VA O'QISH 2-DARS / MUALLIMI SONIY 2-DARS UZBEK TILIDA (JUDA OSON)"},
+  {n:3,s:'arab',sn:3,title:"ARAB TILIDA YOZISH VA O'QISH 3-DARS / MUALLIMI SONIY 3-DARS UZBEK TILIDA (JUDA OSON)"},
+  {n:4,s:'arab',sn:4,title:"ARAB TILIDA YOZISH VA O'QISH 4-DARS / MUALLIMI SONIY 4-DARS UZBEK TILIDA (JUDA OSON)"},
+  {n:5,s:'arab',sn:5,title:"ARAB TILIDA YOZISH VA O'QISH 5-DARS / MUALLIMI SONIY 5-DARS UZBEK TILIDA (JUDA OSON)"},
+  {n:6,s:'arab',sn:6,title:"ARAB TILIDA YOZISH VA O'QISH 6-DARS / MUALLIMI SONIY 6-DARS UZBEK TILIDA"},
+  {n:7,s:'arab',sn:7,title:"ARAB TILIDA YOZISH VA O'QISH 7-DARS / MUALLIMI SONIY 7-DARS UZBEK TILIDA"},
+  {n:8,s:'arab',sn:8,title:"ARAB TILIDA YOZISH VA O'QISH 8-DARS / MUALLIMI SONIY 8-DARS UZBEK TILIDA"},
+  {n:9,s:'arab',sn:9,title:"ARAB TILIDA YOZISH VA O'QISH 9-DARS / MUALLIMI SONIY 9-DARS UZBEK TILIDA"},
+  {n:10,s:'arab',sn:10,title:"ARAB TILIDA YOZISH VA O'QISH 10-DARS / MUALLIMI SONIY 10-DARS UZBEK TILIDA"},
+  {n:11,s:'arab',sn:11,title:"ARAB TILIDA YOZISH VA O'QISH 11-DARS / MUALLIMI SONIY 11-DARS UZBEK TILIDA"},
+  {n:12,s:'arab',sn:12,title:"ARAB TILIDA YOZISH VA O'QISH 12-DARS / MUALLIMI SONIY 12-DARS UZBEK TILIDA"},
+  {n:13,s:'arab',sn:13,title:"ARAB TILIDA YOZISH VA O'QISH 13-DARS / MUALLIMI SONIY 13-DARS UZBEK TILIDA"},
+  {n:14,s:'arab',sn:14,title:"ARAB TILIDA YOZISH VA O'QISH 14-DARS / MUALLIMI SONIY 14-DARS UZBEK TILIDA"},
+  {n:15,s:'arab',sn:15,title:"ARAB TILIDA YOZISH VA O'QISH 15-DARS / MUALLIMI SONIY 15-DARS UZBEK TILIDA"},
+  {n:16,s:'arab',sn:16,title:"ARAB TILIDA YOZISH VA O'QISH 16-DARS / MUALLIMI SONIY 16-DARS UZBEK TILIDA"},
+  {n:17,s:'arab',sn:17,title:"ARAB TILIDA YOZISH VA O'QISH 17-DARS / MUALLIMI SONIY 17-DARS UZBEK TILIDA"},
+  {n:18,s:'arab',sn:18,title:"ARAB TILIDA YOZISH VA O'QISH 18-DARS / MUALLIMI SONIY 18-DARS UZBEK TILIDA"},
+  {n:19,s:'arab',sn:19,title:"ARAB TILIDA YOZISH VA O'QISH 19-DARS / MUALLIMI SONIY 19-DARS UZBEK TILIDA"},
+  {n:20,s:'arab',sn:20,title:"ARAB TILIDA YOZISH VA O'QISH 20-DARS / MUALLIMI SONIY 20-DARS UZBEK TILIDA"},
+  {n:21,s:'arab',sn:21,title:"ARAB TILIDA YOZISH VA O'QISH 21-DARS / MUALLIMI SONIY 21-DARS UZBEK TILIDA"},
+  {n:22,s:'arab',sn:22,title:"ARAB TILIDA YOZISH VA O'QISH 22-DARS / MUALLIMI SONIY 22-DARS UZBEK TILIDA"},
+  {n:23,s:'arab',sn:23,title:"ARAB TILIDA YOZISH VA O'QISH 23-DARS / MUALLIMI SONIY 23-DARS UZBEK TILIDA"},
+  {n:24,s:'arab',sn:24,title:"ARAB TILIDA YOZISH VA O'QISH 24-DARS / MUALLIMI SONIY 24-DARS UZBEK TILIDA"},
+  {n:25,s:'arab',sn:25,title:"ARAB TILIDA YOZISH VA O'QISH 25-DARS / MUALLIMI SONIY 25-DARS UZBEK TILIDA"},
+  {n:26,s:'arab',sn:26,title:"ARAB TILIDA YOZISH VA O'QISH 26-DARS / MUALLIMI SONIY 26-DARS UZBEK TILIDA"},
+  {n:27,s:'arab',sn:27,title:"ARAB TILIDA YOZISH VA O'QISH 27-DARS / MUALLIMI SONIY 27-DARS UZBEK TILIDA"},
+  {n:28,s:'arab',sn:28,title:"ARAB TILIDA YOZISH VA O'QISH 28-DARS / MUALLIMI SONIY 28-DARS UZBEK TILIDA"},
+  {n:29,s:'arab',sn:29,title:"ARAB TILIDA YOZISH VA O'QISH 29-DARS / MUALLIMI SONIY 29-DARS UZBEK TILIDA"},
+  {n:30,s:'arab',sn:30,title:"ARAB TILIDA YOZISH VA O'QISH 30-DARS / MUALLIMI SONIY 30-DARS UZBEK TILIDA"},
+  {n:31,s:'arab',sn:31,title:"ARAB TILIDA YOZISH VA O'QISH 31-DARS / MUALLIMI SONIY 31-DARS UZBEK TILIDA"},
+  {n:32,s:'arab',sn:32,title:"ARAB TILIDA YOZISH VA O'QISH 32-DARS / MUALLIMI SONIY 32-DARS UZBEK TILIDA"},
+  {n:33,s:'arab',sn:33,title:"ARAB TILIDA YOZISH VA O'QISH 33-DARS / MUALLIMI SONIY 33-DARS UZBEK TILIDA"},
+  {n:34,s:'arab',sn:34,title:"ARAB TILIDA YOZISH VA O'QISH 34-DARS / MUALLIMI SONIY 34-DARS UZBEK TILIDA"},
+  {n:35,s:'arab',sn:35,title:"ARAB TILIDA YOZISH VA O'QISH 35-DARS / MUALLIMI SONIY 35-DARS UZBEK TILIDA"},
+  {n:36,s:'tajvid',sn:1,title:"TAJVID DARSLARI 1-DARS / MUALLIMI SONIY TAJVID 1-DARS UZBEK TILIDA"},
+  {n:37,s:'tajvid',sn:2,title:"TAJVID DARSLARI 2-DARS / MUALLIMI SONIY TAJVID 2-DARS UZBEK TILIDA"},
+  {n:38,s:'tajvid',sn:3,title:"TAJVID DARSLARI 3-DARS / MUALLIMI SONIY TAJVID 3-DARS UZBEK TILIDA"},
+  {n:39,s:'tajvid',sn:4,title:"TAJVID DARSLARI 4-DARS / MUALLIMI SONIY TAJVID 4-DARS UZBEK TILIDA"},
+  {n:40,s:'tajvid',sn:5,title:"TAJVID DARSLARI 5-DARS / MUALLIMI SONIY TAJVID 5-DARS UZBEK TILIDA"},
+  {n:41,s:'tajvid',sn:6,title:"TAJVID DARSLARI 6-DARS / MUALLIMI SONIY TAJVID 6-DARS UZBEK TILIDA"},
+  {n:42,s:'tajvid',sn:7,title:"TAJVID DARSLARI 7-DARS / MUALLIMI SONIY TAJVID 7-DARS UZBEK TILIDA"},
+  {n:43,s:'tajvid',sn:8,title:"TAJVID DARSLARI 8-DARS / MUALLIMI SONIY TAJVID 8-DARS UZBEK TILIDA"},
+  {n:44,s:'tajvid',sn:9,title:"TAJVID DARSLARI 9-DARS / MUALLIMI SONIY TAJVID 9-DARS UZBEK TILIDA"},
+  {n:45,s:'tajvid',sn:10,title:"TAJVID DARSLARI 10-DARS / MUALLIMI SONIY TAJVID 10-DARS UZBEK TILIDA"},
+  {n:46,s:'tajvid',sn:11,title:"TAJVID DARSLARI 11-DARS / MUALLIMI SONIY TAJVID 11-DARS UZBEK TILIDA"},
+  {n:47,s:'tajvid',sn:12,title:"TAJVID DARSLARI 12-DARS / MUALLIMI SONIY TAJVID 12-DARS UZBEK TILIDA"},
+  {n:48,s:'tajvid',sn:13,title:"TAJVID DARSLARI 13-DARS / MUALLIMI SONIY TAJVID 13-DARS UZBEK TILIDA"},
+  {n:49,s:'tajvid',sn:14,title:"TAJVID DARSLARI 14-DARS / MUALLIMI SONIY TAJVID 14-DARS UZBEK TILIDA"},
+  {n:50,s:'tajvid',sn:15,title:"TAJVID DARSLARI 15-DARS / MUALLIMI SONIY TAJVID 15-DARS UZBEK TILIDA"},
+  {n:51,s:'tajvid',sn:16,title:"TAJVID DARSLARI 16-DARS / MUALLIMI SONIY TAJVID 16-DARS UZBEK TILIDA"},
+  {n:52,s:'tajvid',sn:17,title:"TAJVID DARSLARI 17-DARS / MUALLIMI SONIY TAJVID 17-DARS UZBEK TILIDA"},
+  {n:53,s:'tajvid',sn:18,title:"TAJVID DARSLARI 18-DARS / MUALLIMI SONIY TAJVID 18-DARS UZBEK TILIDA"},
+  {n:54,s:'tajvid',sn:19,title:"TAJVID DARSLARI 19-DARS / MUALLIMI SONIY TAJVID 19-DARS UZBEK TILIDA"},
+  {n:55,s:'tajvid',sn:20,title:"TAJVID DARSLARI 20-DARS / MUALLIMI SONIY TAJVID 20-DARS UZBEK TILIDA"},
+  {n:56,s:'tajvid',sn:21,title:"TAJVID DARSLARI 21-DARS / MUALLIMI SONIY TAJVID 21-DARS UZBEK TILIDA"},
+  {n:57,s:'tajvid',sn:22,title:"TAJVID DARSLARI 22-DARS / MUALLIMI SONIY TAJVID 22-DARS UZBEK TILIDA"},
+  {n:58,s:'tajvid',sn:23,title:"TAJVID DARSLARI 23-DARS / MUALLIMI SONIY TAJVID 23-DARS UZBEK TILIDA"},
+  {n:59,s:'tajvid',sn:24,title:"TAJVID DARSLARI 24-DARS / MUALLIMI SONIY TAJVID 24-DARS UZBEK TILIDA"},
+  {n:60,s:'tajvid',sn:25,title:"TAJVID DARSLARI 25-DARS / MUALLIMI SONIY TAJVID 25-DARS UZBEK TILIDA"},
+  {n:61,s:'tajvid',sn:26,title:"TAJVID DARSLARI 26-DARS / MUALLIMI SONIY TAJVID 26-DARS UZBEK TILIDA"},
+  {n:62,s:'tajvid',sn:27,title:"TAJVID DARSLARI 27-DARS / MUALLIMI SONIY TAJVID 27-DARS UZBEK TILIDA"},
+  {n:63,s:'tajvid',sn:28,title:"TAJVID DARSLARI 28-DARS / MUALLIMI SONIY TAJVID 28-DARS UZBEK TILIDA"},
+  {n:64,s:'tajvid',sn:29,title:"TAJVID DARSLARI 29-DARS / MUALLIMI SONIY TAJVID 29-DARS UZBEK TILIDA"},
+  {n:65,s:'tajvid',sn:30,title:"TAJVID DARSLARI 30-DARS / MUALLIMI SONIY TAJVID 30-DARS UZBEK TILIDA"},
+  {n:66,s:'tajvid',sn:31,title:"TAJVID DARSLARI 31-DARS / MUALLIMI SONIY TAJVID 31-DARS UZBEK TILIDA"},
+  {n:67,s:'tajvid',sn:32,title:"TAJVID DARSLARI 32-DARS / MUALLIMI SONIY TAJVID 32-DARS UZBEK TILIDA"},
+  {n:68,s:'tajvid',sn:33,title:"TAJVID DARSLARI 33-DARS / MUALLIMI SONIY TAJVID 33-DARS UZBEK TILIDA"},
+  {n:69,s:'tajvid',sn:34,title:"TAJVID DARSLARI 34-DARS / MUALLIMI SONIY TAJVID 34-DARS UZBEK TILIDA"},
+  {n:70,s:'tajvid',sn:35,title:"TAJVID DARSLARI 35-DARS / MUALLIMI SONIY TAJVID 35-DARS UZBEK TILIDA"},
+  {n:71,s:'tajvid',sn:36,title:"TAJVID DARSLARI 36-DARS / MUALLIMI SONIY TAJVID 36-DARS UZBEK TILIDA"},
+  {n:72,s:'tajvid',sn:37,title:"TAJVID DARSLARI 37-DARS / MUALLIMI SONIY TAJVID 37-DARS UZBEK TILIDA"},
+  {n:73,s:'tajvid',sn:38,title:"TAJVID DARSLARI 38-DARS / MUALLIMI SONIY TAJVID 38-DARS UZBEK TILIDA"},
+  {n:74,s:'tajvid',sn:39,title:"TAJVID DARSLARI 39-DARS / MUALLIMI SONIY TAJVID 39-DARS UZBEK TILIDA"},
+  {n:75,s:'tajvid',sn:40,title:"TAJVID DARSLARI 40-DARS / MUALLIMI SONIY TAJVID 40-DARS UZBEK TILIDA"},
+  {n:76,s:'tajvid',sn:41,title:"TAJVID DARSLARI 41-DARS / MUALLIMI SONIY TAJVID 41-DARS UZBEK TILIDA"},
+  {n:77,s:'tajvid',sn:42,title:"TAJVID DARSLARI 42-DARS / MUALLIMI SONIY TAJVID 42-DARS UZBEK TILIDA"},
+  {n:78,s:'tajvid',sn:43,title:"TAJVID DARSLARI 43-DARS / MUALLIMI SONIY TAJVID 43-DARS UZBEK TILIDA"},
+  {n:79,s:'tajvid',sn:44,title:"TAJVID DARSLARI 44-DARS / MUALLIMI SONIY TAJVID 44-DARS UZBEK TILIDA"},
+  {n:80,s:'tajvid',sn:45,title:"TAJVID DARSLARI 45-DARS / MUALLIMI SONIY TAJVID 45-DARS UZBEK TILIDA"},
+  {n:81,s:'tajvid',sn:46,title:"TAJVID DARSLARI 46-DARS / MUALLIMI SONIY TAJVID 46-DARS UZBEK TILIDA"},
+  {n:82,s:'tajvid',sn:47,title:"TAJVID DARSLARI 47-DARS / MUALLIMI SONIY TAJVID 47-DARS UZBEK TILIDA"},
+  {n:83,s:'tajvid',sn:48,title:"TAJVID DARSLARI 48-DARS / MUALLIMI SONIY TAJVID 48-DARS UZBEK TILIDA"},
+  {n:84,s:'tajvid',sn:49,title:"TAJVID DARSLARI 49-DARS / MUALLIMI SONIY TAJVID 49-DARS UZBEK TILIDA"},
+  {n:85,s:'tajvid',sn:50,title:"TAJVID DARSLARI 50-DARS / MUALLIMI SONIY TAJVID 50-DARS UZBEK TILIDA"},
+  {n:86,s:'tajvid',sn:51,title:"TAJVID DARSLARI 51-DARS / MUALLIMI SONIY TAJVID 51-DARS UZBEK TILIDA"},
+  {n:87,s:'tajvid',sn:52,title:"TAJVID DARSLARI 52-DARS / MUALLIMI SONIY TAJVID 52-DARS UZBEK TILIDA"},
+  {n:88,s:'tajvid',sn:53,title:"TAJVID DARSLARI 53-DARS / MUALLIMI SONIY TAJVID 53-DARS UZBEK TILIDA"},
+  {n:89,s:'tajvid',sn:54,title:"TAJVID DARSLARI 54-DARS / MUALLIMI SONIY TAJVID 54-DARS UZBEK TILIDA"},
+  {n:90,s:'tajvid',sn:55,title:"TAJVID DARSLARI 55-DARS / MUALLIMI SONIY TAJVID 55-DARS UZBEK TILIDA"},
+  {n:91,s:'tajvid',sn:56,title:"TAJVID DARSLARI 56-DARS / MUALLIMI SONIY TAJVID 56-DARS UZBEK TILIDA"},
+  {n:92,s:'tajvid',sn:57,title:"TAJVID DARSLARI 57-DARS / MUALLIMI SONIY TAJVID 57-DARS UZBEK TILIDA"},
+  {n:93,s:'tajvid',sn:58,title:"TAJVID DARSLARI 58-DARS / MUALLIMI SONIY TAJVID 58-DARS UZBEK TILIDA"},
+  {n:94,s:'tajvid',sn:59,title:"TAJVID DARSLARI 59-DARS / MUALLIMI SONIY TAJVID 59-DARS UZBEK TILIDA"},
+  {n:95,s:'tajvid',sn:60,title:"TAJVID DARSLARI 60-DARS / MUALLIMI SONIY TAJVID 60-DARS UZBEK TILIDA"},
+  {n:96,s:'tajvid',sn:61,title:"TAJVID DARSLARI 61-DARS / MUALLIMI SONIY TAJVID 61-DARS UZBEK TILIDA"},
+  {n:97,s:'tajvid',sn:62,title:"TAJVID DARSLARI 62-DARS / MUALLIMI SONIY TAJVID 62-DARS UZBEK TILIDA"},
+  {n:98,s:'tajvid',sn:63,title:"TAJVID DARSLARI 63-DARS / MUALLIMI SONIY TAJVID 63-DARS UZBEK TILIDA"},
+  {n:99,s:'tajvid',sn:64,title:"TAJVID DARSLARI 64-DARS / MUALLIMI SONIY TAJVID 64-DARS UZBEK TILIDA"},
+  {n:100,s:'tajvid',sn:65,title:"TAJVID DARSLARI 65-DARS / MUALLIMI SONIY TAJVID 65-DARS UZBEK TILIDA"},
+  {n:101,s:'tajvid',sn:66,title:"TAJVID DARSLARI 66-DARS / MUALLIMI SONIY TAJVID 66-DARS UZBEK TILIDA"},
+  {n:102,s:'tajvid',sn:67,title:"TAJVID DARSLARI 67-DARS / MUALLIMI SONIY TAJVID 67-DARS UZBEK TILIDA"},
+  {n:103,s:'tajvid',sn:68,title:"TAJVID DARSLARI 68-DARS / MUALLIMI SONIY TAJVID 68-DARS UZBEK TILIDA"},
+  {n:104,s:'tajvid',sn:69,title:"TAJVID DARSLARI 69-DARS / MUALLIMI SONIY TAJVID 69-DARS UZBEK TILIDA"},
+  {n:105,s:'tajvid',sn:70,title:"TAJVID DARSLARI 70-DARS / MUALLIMI SONIY TAJVID 70-DARS UZBEK TILIDA"},
+  {n:106,s:'tajvid',sn:71,title:"TAJVID DARSLARI 71-DARS / MUALLIMI SONIY TAJVID 71-DARS UZBEK TILIDA"},
+  {n:107,s:'tajvid',sn:72,title:"TAJVID DARSLARI 72-DARS / MUALLIMI SONIY TAJVID 72-DARS UZBEK TILIDA"},
+  {n:108,s:'tajvid',sn:73,title:"TAJVID DARSLARI 73-DARS / MUALLIMI SONIY TAJVID 73-DARS UZBEK TILIDA"},
+  {n:109,s:'tajvid',sn:74,title:"TAJVID DARSLARI 74-DARS / MUALLIMI SONIY TAJVID 74-DARS UZBEK TILIDA"},
+  {n:110,s:'tajvid',sn:75,title:"TAJVID DARSLARI 75-DARS / MUALLIMI SONIY TAJVID 75-DARS UZBEK TILIDA"},
+  {n:111,s:'tajvid',sn:76,title:"TAJVID DARSLARI 76-DARS / MUALLIMI SONIY TAJVID 76-DARS UZBEK TILIDA"},
+  {n:112,s:'tajvid',sn:77,title:"TAJVID DARSLARI 77-DARS / MUALLIMI SONIY TAJVID 77-DARS UZBEK TILIDA"},
+  {n:113,s:'tajvid',sn:78,title:"TAJVID DARSLARI 78-DARS / MUALLIMI SONIY TAJVID 78-DARS UZBEK TILIDA"},
+  {n:114,s:'quron',sn:1,title:"QURON O'QISHNI O'RGANISH 1-DARS / MUALLIMI SONIY QURON 1-DARS UZBEK TILIDA"},
+  {n:115,s:'quron',sn:2,title:"QURON O'QISHNI O'RGANISH 2-DARS / MUALLIMI SONIY QURON 2-DARS UZBEK TILIDA"},
+  {n:116,s:'quron',sn:3,title:"QURON O'QISHNI O'RGANISH 3-DARS / MUALLIMI SONIY QURON 3-DARS UZBEK TILIDA"},
+  {n:117,s:'quron',sn:4,title:"QURON O'QISHNI O'RGANISH 4-DARS / MUALLIMI SONIY QURON 4-DARS UZBEK TILIDA"},
+  {n:118,s:'quron',sn:5,title:"QURON O'QISHNI O'RGANISH 5-DARS / MUALLIMI SONIY QURON 5-DARS UZBEK TILIDA"},
+  {n:119,s:'quron',sn:6,title:"QURON O'QISHNI O'RGANISH 6-DARS / MUALLIMI SONIY QURON 6-DARS UZBEK TILIDA"},
+  {n:120,s:'quron',sn:7,title:"QURON O'QISHNI O'RGANISH 7-DARS / MUALLIMI SONIY QURON 7-DARS UZBEK TILIDA"},
+  {n:121,s:'quron',sn:8,title:"QURON O'QISHNI O'RGANISH 8-DARS / MUALLIMI SONIY QURON 8-DARS UZBEK TILIDA"},
+  {n:122,s:'quron',sn:9,title:"QURON O'QISHNI O'RGANISH 9-DARS / MUALLIMI SONIY QURON 9-DARS UZBEK TILIDA"},
+  {n:123,s:'quron',sn:10,title:"QURON O'QISHNI O'RGANISH 10-DARS / MUALLIMI SONIY QURON 10-DARS UZBEK TILIDA"},
+  {n:124,s:'quron',sn:11,title:"QURON O'QISHNI O'RGANISH 11-DARS / MUALLIMI SONIY QURON 11-DARS UZBEK TILIDA"},
+  {n:125,s:'quron',sn:12,title:"QURON O'QISHNI O'RGANISH 12-DARS / MUALLIMI SONIY QURON 12-DARS UZBEK TILIDA"},
+  {n:126,s:'quron',sn:13,title:"QURON O'QISHNI O'RGANISH 13-DARS / MUALLIMI SONIY QURON 13-DARS UZBEK TILIDA"},
+  {n:127,s:'quron',sn:14,title:"QURON O'QISHNI O'RGANISH 14-DARS / MUALLIMI SONIY QURON 14-DARS UZBEK TILIDA"},
+  {n:128,s:'quron',sn:15,title:"QURON O'QISHNI O'RGANISH 15-DARS / MUALLIMI SONIY QURON 15-DARS UZBEK TILIDA"},
+  {n:129,s:'quron',sn:16,title:"QURON O'QISHNI O'RGANISH 16-DARS / MUALLIMI SONIY QURON 16-DARS UZBEK TILIDA"},
+  {n:130,s:'quron',sn:17,title:"QURON O'QISHNI O'RGANISH 17-DARS / MUALLIMI SONIY QURON 17-DARS UZBEK TILIDA"},
+  {n:131,s:'quron',sn:18,title:"QURON O'QISHNI O'RGANISH 18-DARS / MUALLIMI SONIY QURON 18-DARS UZBEK TILIDA"},
+  {n:132,s:'quron',sn:19,title:"QURON O'QISHNI O'RGANISH 19-DARS / MUALLIMI SONIY QURON 19-DARS UZBEK TILIDA"}
+];
+
+// openVideo and closeVideoModal defined in AUDIO section above
+
+function buildVideosPage(){
+  var grid=document.getElementById('yt-grid');if(!grid)return;
+  var lastV=loadProgress('video');
+  // Eslab qolish banneri
+  var existBanner=document.getElementById('video-resume-banner');
+  if(existBanner)existBanner.remove();
+  if(lastV&&lastV.n){
+    var bannerEl=document.createElement('div');
+    bannerEl.id='video-resume-banner';
+    bannerEl.innerHTML='<div style="background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.2);border-radius:1rem;padding:.9rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;cursor:pointer" onclick="openVideo('+lastV.n+',\''+lastV.title.replace(/'/g,"\\'")+'\')">'
+    +'<div>'
+    +'<div style="font-size:.7rem;color:var(--text-dim);margin-bottom:.2rem">🕐 Oxirgi ko\'rilgan dars</div>'
+    +'<div style="font-size:.85rem;color:var(--gold);font-weight:700">'+lastV.n+'-dars: '+lastV.title.substring(0,55)+'...</div>'
+    +'</div>'
+    +'<div style="background:#c0392b;color:#fff;border-radius:.5rem;padding:.35rem .8rem;font-size:.78rem;font-weight:700;white-space:nowrap;flex-shrink:0">▶ Davom et</div>'
+    +'</div>';
+    grid.parentElement.insertBefore(bannerEl,grid);
+  }
+
+  grid.innerHTML=VIDEOS.map(function(v){
+    var isLast=lastV&&lastV.n===v.n;
+    var ytUrl=getYtUrl(v.n);
+    var seriesBadge,seriesTitle,thumbGrad;
+    if(v.s==='arab'){
+      seriesBadge='<div style="font-size:.58rem;background:rgba(200,168,75,.2);border:1px solid rgba(200,168,75,.5);color:#c8a84b;border-radius:2rem;padding:.1rem .5rem;font-weight:700;margin-bottom:3px">&#x1F524; ALIFBO</div>';
+      seriesTitle='Arab Alifbosi';
+      thumbGrad='linear-gradient(135deg,#180606,#3a0e0e)';
+    } else if(v.s==='tajvid'){
+      seriesBadge='<div style="font-size:.58rem;background:rgba(140,90,255,.2);border:1px solid rgba(140,90,255,.5);color:#c4a0ff;border-radius:2rem;padding:.1rem .5rem;font-weight:700;margin-bottom:3px">&#x1F4DA; TAJVID</div>';
+      seriesTitle='Tajvid Darslari';
+      thumbGrad='linear-gradient(135deg,#0d0618,#1e0a38)';
+    } else {
+      seriesBadge='<div style="font-size:.58rem;background:rgba(82,183,136,.2);border:1px solid rgba(82,183,136,.5);color:#7dd4b0;border-radius:2rem;padding:.1rem .5rem;font-weight:700;margin-bottom:3px">&#x1F4D6; QUR\'ON</div>';
+      seriesTitle="Quron O'qish";
+      thumbGrad='linear-gradient(135deg,#051808,#0a3018)';
+    }
+    var lastBadge=isLast?'<div style="font-size:.55rem;background:#c8a84b;color:#000;border-radius:2rem;padding:.1rem .5rem;font-weight:700;margin-bottom:3px">&#9646;&#9646; OXIRGI</div>':'';
+    return '<a class="yt-card" href="'+ytUrl+'" target="_blank" rel="noopener" style="text-decoration:none;'+(isLast?'border-color:#c8a84b;':'')+'border-left:3px solid '+(v.s==='arab'?'#c8a84b':v.s==='tajvid'?'#9070d0':'#52b788')+';">'
+      +'<div class="yt-thumb" style="background:'+thumbGrad+'">'
+      +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:.5rem">'
+      +lastBadge+seriesBadge
+      +'<div style="font-family:\'Amiri Quran\',serif;font-size:1.4rem;color:#c8a84b;text-align:center;line-height:1.2">'+seriesTitle+'</div>'
+      +'<div style="font-size:.6rem;color:#8a6f2e;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Muallimi Soniy</div>'
+      +'<div style="font-size:.7rem;color:#c8a84b;margin-top:4px;font-weight:700">'+v.sn+'-dars</div>'
+      +'</div>'
+      +'<div class="yt-play-overlay"><div class="yt-play-circle" style="background:#c0392b">&#9654;</div></div>'
+      +'</div>'
+      +'<div class="yt-info">'
+      +'<div class="yt-num">'+(v.s==='arab'?'Arab Alifbosi':v.s==='tajvid'?'Tajvid':'Quron o\'qish')+' &middot; '+v.sn+'-dars</div>'
+      +'<div class="yt-title">'+v.title+'</div>'
+      +'</div></a>';
+  }).join('');
+}
+
+// ══ PROGRESS / ESLAB QOLISH ══
+var PROGRESS_KEY='qt_progress_v1';
+function saveProgress(type,data){
+  try{var p=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');p[type]=Object.assign({ts:Date.now()},data);localStorage.setItem(PROGRESS_KEY,JSON.stringify(p));}catch(e){}
+}
+function loadProgress(type){
+  try{var p=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'{}');return p[type]||null;}catch(e){return null;}
+}
+
+// ══ WBW SYNC — Barcha oyatlar uchun so'z-so'z sinxronizatsiya ══
+var wbwWords=[];// joriy oyat so'zlari
+
+function buildWbwArabicHTML(arabic,size){
+  wbwWords=arabic.split(/\s+/).filter(function(w){return w.trim();});
+  return '<div class="arabic-line sz-'+size+'" id="arabic-line" dir="rtl" style="word-spacing:.4em">'
+    +wbwWords.map(function(w,i){return '<span class="w pending" id="wbw-'+i+'">'+w+'</span>';}).join(' ')
+    +'</div>';
+}
+
+function syncAllWbw(ct,dur){
+  if(!wbwWords.length||!dur)return;
+  var frac=ct/dur;
+  wbwWords.forEach(function(_,i){
+    var el=document.getElementById('wbw-'+i);if(!el)return;
+    var s=i/wbwWords.length, e=(i+1)/wbwWords.length;
+    if(frac>=s&&frac<e){el.className='w highlighted';}
+    else if(frac>=e){el.className='w done';}
+    else{el.className='w pending';}
+  });
+}
+
+function stopAllWbw(){
+  wbwWords.forEach(function(_,i){var el=document.getElementById('wbw-'+i);if(el)el.className='w pending';});
+}
+
+
+// ══════════════════════════════════════════════════
+// HIFZ (YODLASH) MODULI
+// ══════════════════════════════════════════════════
+var hifzMode='listen';         // 'listen' | 'recall'
+var hifzAyahs=[];             // {number, arabic, uzbek, audio}
+var hifzIdx=0;                // joriy oyat indeksi
+var hifzRepeat=5;             // har oyat necha marta
+var hifzRepeatDone=0;         // hozirgi oyat nechi marta o'ynaldi
+var hifzPlaying=false;
+var hifzRevealDone=false;
+var hifzStats={easy:0,ok:0,hard:0,total:0};
+var hifzArabicVisible=true;
+var hifzUzbekVisible=true;
+
+// Populate surah selector on hifz page open
+function hifzInit(){
+  var sel=document.getElementById('hifz-surah-sel');
+  if(!sel||sel.options.length>1)return;
+  sel.innerHTML='';
+  SURAH_META.forEach(function(s){
+    var o=document.createElement('option');
+    o.value=s.n; o.textContent=s.n+'. '+s.en+' ('+s.ar+')';
+    sel.appendChild(o);
+  });
+  hifzOnSurahChange();
+}
+
+function hifzOnSurahChange(){
+  var surahNum=parseInt(document.getElementById('hifz-surah-sel').value);
+  var meta=null;
+  for(var i=0;i<SURAH_META.length;i++){if(SURAH_META[i].n===surahNum){meta=SURAH_META[i];break;}}
+  if(!meta)return;
+  var fromSel=document.getElementById('hifz-from');
+  var toSel=document.getElementById('hifz-to');
+  fromSel.innerHTML=''; toSel.innerHTML='';
+  for(var n=1;n<=meta.ay;n++){
+    fromSel.innerHTML+='<option value="'+n+'">'+n+'-oyat</option>';
+    toSel.innerHTML+='<option value="'+n+'">'+n+'-oyat</option>';
+  }
+  // Default: 1-5 oyat (yoki surah hammasi agar qisqa)
+  fromSel.value='1';
+  toSel.value=Math.min(5,meta.ay);
+}
+
+function hifzRangeChanged(){
+  var from=parseInt(document.getElementById('hifz-from').value);
+  var to=parseInt(document.getElementById('hifz-to').value);
+  if(to<from){document.getElementById('hifz-to').value=from;}
+}
+
+function hifzSetMode(mode,btn){
+  hifzMode=mode;
+  document.querySelectorAll('.hifz-mode-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('hifz-listen-panel').style.display=mode==='listen'?'':'none';
+  document.getElementById('hifz-recall-panel').style.display=mode==='recall'?'':'none';
+}
+
+function hifzStart(){
+  var surahNum=parseInt(document.getElementById('hifz-surah-sel').value);
+  var from=parseInt(document.getElementById('hifz-from').value);
+  var to=parseInt(document.getElementById('hifz-to').value);
+  hifzRepeat=parseInt(document.getElementById('hifz-rept').value);
+
+  var data=SURAH_DATA[surahNum];
+  if(!data){
+    alert("Bu sura uchun audio/matn hali qo'shilmagan. 1 (Fotiha), 108, 110, 112, 113, 114 dan birini tanlang.");
+    return;
+  }
+  hifzAyahs=data.ayahs.filter(function(a){return a.n>=from&&a.n<=to;});
+  if(!hifzAyahs.length){alert("Bu diapazonda oyat topilmadi.");return;}
+
+  hifzIdx=0; hifzRepeatDone=0; hifzPlaying=false;
+  hifzStats={easy:0,ok:0,hard:0,total:hifzAyahs.length};
+  hifzArabicVisible=true; hifzUzbekVisible=true;
+
+  document.getElementById('hifz-stats-card').style.display='none';
+
+  if(hifzMode==='listen'){
+    document.getElementById('hifz-listen-card').style.display='block';
+    document.getElementById('hifz-recall-card').style.display='none';
+    hifzRenderListen();
+    hifzPlay();
+  } else {
+    document.getElementById('hifz-recall-card').style.display='block';
+    document.getElementById('hifz-listen-card').style.display='none';
+    hifzRenderRecall();
+  }
+}
+
+// ── LISTEN MODE ──
+function hifzRenderListen(){
+  var ay=hifzAyahs[hifzIdx];
+  var total=hifzAyahs.length;
+  var totalRepeats=total*hifzRepeat;
+  var doneRepeats=hifzIdx*hifzRepeat+hifzRepeatDone;
+  var pct=totalRepeats>0?(doneRepeats/totalRepeats*100):0;
+
+  document.getElementById('hifz-progress-lbl').textContent=
+    (hifzIdx+1)+'/'+total+' oyat \u00b7 '+(hifzRepeatDone+1)+'/'+hifzRepeat+' takror';
+  document.getElementById('hifz-ayah-lbl').textContent=
+    'Oyat '+ay.n;
+  document.getElementById('hifz-pbar').style.width=pct+'%';
+  document.getElementById('hifz-arabic-box').textContent=
+    hifzArabicVisible?ay.ar:'';
+  document.getElementById('hifz-arabic-box').style.filter=
+    hifzArabicVisible?'none':'blur(10px)';
+  document.getElementById('hifz-uzbek-box').textContent=
+    hifzUzbekVisible?ay.uz:'';
+
+  // Repeat dots
+  var dots='';
+  for(var i=0;i<hifzRepeat;i++){
+    var cls=i<hifzRepeatDone?'hifz-dot done':i===hifzRepeatDone?'hifz-dot current':'hifz-dot';
+    dots+='<div class="'+cls+'"></div>';
+  }
+  document.getElementById('hifz-repeat-dots').innerHTML=dots;
+}
+
+function hifzPlay(){
+  if(!hifzAyahs.length)return;
+  hifzPlaying=true;
+  document.getElementById('hifz-play-btn').textContent='\u23f8';
+  var ay=hifzAyahs[hifzIdx];
+  if(ay.audio){
+    aud.src=ay.audio;
+    aud.play().catch(function(){});
+  }
+}
+
+function hifzTogglePlay(){
+  if(hifzPlaying){hifzPlaying=false;aud.pause();document.getElementById('hifz-play-btn').textContent='\u25b6';}
+  else{hifzPlay();}
+}
+
+// Override audio ended for hifz mode
+var _origAudEnded=null;
+function hifzInstallAudListener(){
+  aud.onended=function(){
+    if(!hifzPlaying)return;
+    hifzRepeatDone++;
+    if(hifzRepeatDone>=hifzRepeat){
+      hifzRepeatDone=0;
+      hifzIdx++;
+      if(hifzIdx>=hifzAyahs.length){
+        hifzDone();return;
+      }
+    }
+    hifzRenderListen();
+    setTimeout(function(){
+      var ay=hifzAyahs[hifzIdx];
+      if(ay.audio){aud.src=ay.audio;aud.play().catch(function(){});}
+    },600);
+  };
+}
+hifzInstallAudListener();
+
+function hifzPrevAyah(){
+  if(hifzIdx>0){hifzIdx--;hifzRepeatDone=0;hifzRenderListen();if(hifzPlaying)hifzPlay();}
+}
+function hifzNextAyah(){
+  if(hifzIdx<hifzAyahs.length-1){hifzIdx++;hifzRepeatDone=0;hifzRenderListen();if(hifzPlaying)hifzPlay();}
+  else hifzDone();
+}
+function hifzToggleArabic(){
+  hifzArabicVisible=!hifzArabicVisible;
+  document.getElementById('hifz-ar-btn').classList.toggle('active',hifzArabicVisible);
+  hifzRenderListen();
+}
+function hifzToggleUzbek(){
+  hifzUzbekVisible=!hifzUzbekVisible;
+  document.getElementById('hifz-uz-btn').classList.toggle('active',hifzUzbekVisible);
+  hifzRenderListen();
+}
+
+// ── RECALL MODE ──
+function hifzRenderRecall(){
+  hifzRevealDone=false;
+  var ay=hifzAyahs[hifzIdx];
+  var pct=hifzAyahs.length>0?(hifzIdx/hifzAyahs.length*100):0;
+  document.getElementById('hifz-recall-lbl').textContent='Oyat '+(hifzIdx+1)+'/'+hifzAyahs.length;
+  document.getElementById('hifz-recall-pbar').style.width=pct+'%';
+
+  // Show only first word as hint
+  var words=ay.ar.split(' ');
+  document.getElementById('hifz-hint-box').textContent=words[0]+' ...';
+  document.getElementById('hifz-reveal-box').textContent=ay.ar;
+  document.getElementById('hifz-reveal-box').style.filter='blur(12px)';
+  document.getElementById('hifz-recall-uzbek').textContent=ay.uz;
+  document.getElementById('hifz-recall-uzbek').style.opacity='0';
+  document.getElementById('hifz-reveal-hint').style.display='';
+  document.getElementById('hifz-rate-btns').style.display='none';
+
+  // Play once
+  if(ay.audio){aud.src=ay.audio;aud.play().catch(function(){});}
+}
+
+function hifzReveal(){
+  if(hifzRevealDone)return;
+  hifzRevealDone=true;
+  document.getElementById('hifz-reveal-box').style.filter='none';
+  document.getElementById('hifz-recall-uzbek').style.opacity='1';
+  document.getElementById('hifz-reveal-hint').style.display='none';
+  document.getElementById('hifz-rate-btns').style.display='flex';
+}
+
+function hifzRate(rating){
+  hifzStats[rating]=(hifzStats[rating]||0)+1;
+  hifzIdx++;
+  if(hifzIdx>=hifzAyahs.length){hifzDone();return;}
+  hifzRenderRecall();
+}
+
+function hifzStop(){
+  hifzPlaying=false;aud.pause();aud.src='';
+  document.getElementById('hifz-listen-card').style.display='none';
+  document.getElementById('hifz-recall-card').style.display='none';
+  aud.onended=null;
+}
+
+function hifzDone(){
+  hifzPlaying=false;aud.pause();aud.src='';
+  document.getElementById('hifz-listen-card').style.display='none';
+  document.getElementById('hifz-recall-card').style.display='none';
+
+  var statsCard=document.getElementById('hifz-stats-card');
+  var body=document.getElementById('hifz-stats-body');
+  var total=hifzStats.total;
+  body.innerHTML=
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;text-align:center;margin-bottom:1rem">'
+    +'<div style="background:rgba(45,106,79,.15);border:1px solid var(--green-l);border-radius:.75rem;padding:.75rem">'
+    +'<div style="font-size:1.6rem;color:var(--green-l);font-weight:700">'+(hifzStats.easy||0)+'</div>'
+    +'<div style="font-size:.72rem;color:var(--text-dim)">✅ Yodladim</div></div>'
+    +'<div style="background:rgba(181,134,60,.12);border:1px solid var(--amber);border-radius:.75rem;padding:.75rem">'
+    +'<div style="font-size:1.6rem;color:var(--amber);font-weight:700">'+(hifzStats.ok||0)+'</div>'
+    +'<div style="font-size:.72rem;color:var(--text-dim)">🤔 O\'rtacha</div></div>'
+    +'<div style="background:rgba(192,57,43,.12);border:1px solid #c0392b;border-radius:.75rem;padding:.75rem">'
+    +'<div style="font-size:1.6rem;color:#e07070;font-weight:700">'+(hifzStats.hard||0)+'</div>'
+    +'<div style="font-size:.72rem;color:var(--text-dim)">😓 Qiyin</div></div>'
+    +'</div>'
+    +(hifzMode==='listen'
+      ?'<p style="text-align:center;color:var(--text-dim);font-size:.85rem">'+total+' oyat \u00d7 '+hifzRepeat+' marta takror yakunlandi! \ud83c\udf89</p>'
+      :'<p style="text-align:center;color:var(--text-dim);font-size:.85rem">'+total+' oyat tekshirildi! Qiyin oyatlarni qayta mashq qiling.</p>'
+    );
+  statsCard.style.display='block';
+  statsCard.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+
+// ══ THEME ══
+var THEMES=['dark','night','kaaba','masjid','desert','green','blue','brown'];
+function setTheme(t){
+  THEMES.forEach(function(th){document.body.classList.remove('theme-'+th);});
+  document.body.classList.add('theme-'+t);
+  document.querySelectorAll('.theme-dot').forEach(function(d){
+    d.classList.toggle('active',d.dataset.t===t);
+  });
+  try{localStorage.setItem('qt_theme',t);}catch(e){}
+}
+function loadTheme(){
+  var t='dark';
+  try{t=localStorage.getItem('qt_theme')||'dark';}catch(e){}
+  setTheme(t);
+}
+loadTheme();
+
+
+// ══ TAMPER DETECTION ══
+(function(){
+  // App versiyasi hash — o'zgartirilgan faylni aniqlash
+  var _appKey='qt_integrity_v1';
+  var _expected=btoa('QT-2025-MUALLIMI-SECURE');
+  var _stored=null;
+  try{_stored=localStorage.getItem(_appKey);}catch(e){}
+  if(!_stored){try{localStorage.setItem(_appKey,_expected);}catch(e){}return;}
+  if(_stored!==_expected){
+    // Fayl o'zgartirilgan yoki buzilgan
+    document.body.innerHTML='<div style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;color:#c8a84b;font-family:sans-serif;text-align:center;flex-direction:column;gap:1rem"><div style="font-size:2rem">⚠️</div><div>Fayl buzilgan yoki ruxsatsiz ozgartirilgan.<br>Asl faylni qayta yuklab oling.</div></div>';
+  }
+})();
+
+
+// ══ SESSIYA MUDDATI (8 soat) ══
+(function(){
+  var TIMEOUT=8*60*60*1000;
+  var key='qt_sess_time';
+  var t=parseInt(localStorage.getItem(key)||'0');
+  if(t&&Date.now()-t>TIMEOUT){
+    sessionStorage.clear();
+    localStorage.removeItem(key);
+  }
+  if(sessionStorage.getItem(SESSION_KEY)){
+    localStorage.setItem(key,Date.now().toString());
+  }
+})();
+
+// ══ INIT ══
+checkSess();
+
+</script>
+
+
+
+</body>
+</html>
