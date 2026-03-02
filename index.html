@@ -2394,7 +2394,9 @@ function renderSurah(notLoaded){
 
   document.getElementById('page-quran').scrollTop=0;
   setTimeout(function(){document.querySelectorAll('#page-quran .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('visible');},i*80);});},50);
-  setupAud(ay.audio||'');
+  setupAud(
+    `https://cdn.islamic.network/quran/audio/128/${CURRENT_RECITER}/${ay.number}.mp3`
+  );
   if(ay.audio)fabSetTrack(s.englishName,ay.number);
 }
 
