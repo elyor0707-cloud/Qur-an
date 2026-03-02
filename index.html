@@ -1096,8 +1096,13 @@ async function tryLogin() {
     const data = await res.json();
 
     if (data.success) {
-      document.getElementById("login-screen").style.display = "none";
-      document.getElementById("app").style.display = "block";
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    // 🔥 App yuklashni ishga tushiramiz
+    if (typeof loadSurahs === "function") {
+        loadSurahs();
+    }
     } else {
       errEl.style.display = "block";
     }
