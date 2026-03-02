@@ -566,6 +566,13 @@ body.theme-nabawi::before{
     <button class="tab-btn" onclick="showPage('tajweed',this)">📚 Tajvid</button>
     <button class="tab-btn" onclick="showPage('videos',this)">🎬 Video</button>
     <button class="tab-btn" onclick="showPage('hifz',this)">🧠 Hifz</button>
+
+    <!-- QORI TANLASH -->
+    <select id="reciterSelect" onchange="changeReciter(this.value)"
+    style="margin-left:15px;background:#111;color:#fff;border:1px solid #444;padding:6px;border-radius:6px;">
+      <option value="ar.alafasy">Mishari Alafasy</option>
+      <option value="ar.badr_alturki">Badr At-Turki</option>
+    </select>
   </nav>
 
   <!-- MOBIL PASTKI NAV — 3 tugma -->
@@ -1013,7 +1020,7 @@ body.theme-nabawi::before{
 <audio id="aud" preload="none"></audio>
 
 <script>
-
+let CURRENT_RECITER = localStorage.getItem("reciter") || "ar.alafasy";
 // ══ XAVFSIZLIK MODULI ══
 (function(){
   // 1. DevTools ochilishini aniqlash
