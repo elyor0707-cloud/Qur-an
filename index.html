@@ -1071,28 +1071,40 @@ function getTokens(){
 }
 function saveTokens(t){ safeSet(TOKENS_KEY, JSON.stringify(t)); }
 
-function tryLogin(){
-  var v=document.getElementById("tok").value.trim();
-  var errEl=document.getElementById("l-err");
-  var usedEl=document.getElementById("l-used");
-  errEl.style.display="none";usedEl.style.display="none";
-  if(v===ADMIN_TOKEN){
-    var _sd=JSON.stringify({role:"admin",name:"Admin"});
-    sessionStorage.setItem(SESSION_KEY,_sd);safeSet("_sess_"+SESSION_KEY,_sd);
-    enterApp(true);return;
+async function tryLogin() {
+  var v = document.getElementById("tok").value.trim();
+  var errEl = document.getElementById("l-err");
+  var usedEl = document.getElementById("l-used");
+
+  errEl.style.display = "none";
+  usedEl.style.display = "none";
+
+  if (!v) {
+    errEl.style.display = "block";
+    return;
   }
-  var tokens=getTokens(),tok=tokens[v];
-  if(!tok){errEl.style.display="block";return;}
-  if(tok.expire&&Date.now()>tok.expire){
-    usedEl.textContent="Bu tokenning muddati tugagan.";usedEl.style.display="block";return;
+
+  try {
+    const res = await fetch("/api/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ token: v })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("app").style.display = "block";
+    } else {
+      errEl.style.display = "block";
+    }
+
+  } catch (e) {
+    errEl.style.display = "block";
   }
-  if(tok.limit>0&&tok.used>=tok.limit){
-    usedEl.textContent="Bu token limitiga yetdi ("+tok.limit+" marta).";usedEl.style.display="block";return;
-  }
-  tok.used=(tok.used||0)+1;tok.lastUsed=Date.now();tokens[v]=tok;saveTokens(tokens);
-  var _gd=JSON.stringify({role:"guest",token:v,name:tok.name});
-  sessionStorage.setItem(SESSION_KEY,_gd);safeSet("_sess_"+SESSION_KEY,_gd);
-  enterApp(false);
 }
 
 function toggleTokVis(){
