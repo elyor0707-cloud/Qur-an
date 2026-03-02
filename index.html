@@ -1099,9 +1099,8 @@ async function tryLogin() {
     document.getElementById("login-screen").style.display = "none";
     document.getElementById("app").style.display = "block";
 
-    // 🔥 App yuklashni ishga tushiramiz
-    if (typeof loadSurahs === "function") {
-        loadSurahs();
+    if (typeof enterApp === "function") {
+        enterApp();
     }
     } else {
       errEl.style.display = "block";
