@@ -2411,7 +2411,22 @@ var aud=document.getElementById('aud');
 var FAB_VISIBLE=false, POPUP_OPEN=false;
 
 function ft(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),sc=Math.floor(s%60);return m+':'+sc.toString().padStart(2,'0');}
+let CURRENT_RECITER = localStorage.getItem("reciter") || "ar.alafasy";
 
+document.addEventListener("DOMContentLoaded", function(){
+
+  const recSel = document.getElementById("reciterSelect");
+
+  if(recSel){
+    recSel.value = CURRENT_RECITER;
+
+    recSel.addEventListener("change", function(){
+      CURRENT_RECITER = this.value;
+      localStorage.setItem("reciter", this.value);
+    });
+  }
+
+});
 function setupAud(url){
   // pause() chaqirmasdan to'g'ridan-to'g'ri src ni o'zgartiramiz
   aud.removeEventListener('error',onAudError);
