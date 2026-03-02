@@ -2394,7 +2394,7 @@ function renderSurah(notLoaded){
 
   document.getElementById('page-quran').scrollTop=0;
   setTimeout(function(){document.querySelectorAll('#page-quran .reveal').forEach(function(el,i){setTimeout(function(){el.classList.add('visible');},i*80);});},50);
-  let CURRENT_RECITER = localStorage.getItem("reciter") || "ar.alafasy";
+  
 
   function changeReciter(value){
     CURRENT_RECITER = value;
@@ -2411,7 +2411,7 @@ var aud=document.getElementById('aud');
 var FAB_VISIBLE=false, POPUP_OPEN=false;
 
 function ft(s){if(!s||isNaN(s))return'0:00';var m=Math.floor(s/60),sc=Math.floor(s%60);return m+':'+sc.toString().padStart(2,'0');}
-let CURRENT_RECITER = localStorage.getItem("reciter") || "ar.alafasy";
+
 
 document.addEventListener("DOMContentLoaded", function(){
 
