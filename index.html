@@ -3813,8 +3813,42 @@ document.addEventListener('click',function(e){
 checkSess();
 
 </script>
+<script>
+async function loadSurahs() {
+  const response = await fetch("/api/surah");
+  const surahs = await response.json();
 
+  const container = document.getElementById("surah-list");
+  container.innerHTML = "";
+
+  surahs.forEach(surah => {
+    const button = document.createElement("button");
+    button.innerText = surah.id + ". " + surah.name;
+    button.onclick = () => loadAyahs(surah.id);
+    container.appendChild(button);
+  });
+}
+
+async function loadAyahs(surahNumber) {
+  const response = await fetch(`/api/ayah?surah=${surahNumber}`);
+  const data = await response.json();
+
+  const container = document.getElementById("ayah-list");
+  container.innerHTML = `<h2>${data.surah}</h2>`;
+
+  data.ayahs.forEach(ayah => {
+    const p = document.createElement("p");
+    p.innerText = ayah.number + ". " + ayah.text;
+    container.appendChild(p);
+  });
+}
+
+loadSurahs();
+</script>
 
 
 </body>
+<div id="surah-list"></div>
+<hr>
+<div id="ayah-list"></div>
 </html>
